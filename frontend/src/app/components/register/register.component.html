@@ -29,6 +29,12 @@
           <input type="password" class="form-control" formControlName="password">
         </div>
 
+        <div class="form-outline mb-3">
+          <label>Conferma Password</label>
+          <input type="password" class="form-control" formControlName="confirmpasword">
+        </div>
+
+
         <div class="text-danger" *ngIf="registerError">
           {{ registerError }}
         </div>
