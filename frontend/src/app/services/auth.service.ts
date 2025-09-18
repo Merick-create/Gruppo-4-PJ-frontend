@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, distinctUntilChanged, map, of, ReplaySubject, tap } from 'rxjs';
 import { JwtService } from './jwt.service';
-import { User } from './user.entity';
+import { User } from '../entities/user.entity';
 import { Router } from '@angular/router';
 
 @Injectable({
