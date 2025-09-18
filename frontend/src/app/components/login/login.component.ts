@@ -5,7 +5,8 @@ import { LoginService } from '../../services/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  standalone: false,
 })
 export class LoginComponent {
   email = '';
@@ -28,7 +29,9 @@ export class LoginComponent {
     this.login.login(this.email, this.password).subscribe({
       next: (res) => {
         if (res.success) {
-          if (res.token) localStorage.setItem('token', res.token);
+          if (res.token) {
+            localStorage.setItem('token', res.token);
+          }
           this.router.navigate(['/home']);
         } else {
           this.message = 'Credenziali non valide';
