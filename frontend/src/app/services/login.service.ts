@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Movimento {
-  _id: string;
-  data: string;
-  descrizione: string;
-  importo: number;
-  tipo: string;
-  conto: string;
-}
+import { Movimento } from '../entities/Movimento.entity';
 
 @Injectable({
    providedIn: 'root' 

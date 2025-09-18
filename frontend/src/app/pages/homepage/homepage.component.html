@@ -15,7 +15,7 @@
       <tr *ngFor="let m of movimenti">
         <td>{{ m.data }}</td>
         <td>{{ m.descrizione }}</td>
-        <td>{{ m.importo | currency :'EUR' }}</td>
+        <td>{{ m.importo}}</td>
         <td><a class="btn" (click)="dettagli(m._id)">Dettagli</a></td>
       </tr>
     </tbody>

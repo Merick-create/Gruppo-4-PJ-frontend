@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginService, Movimento } from '../../services/login.service';
+import { LoginService } from '../../services/login.service';
+import { Movimento } from '../../entities/Movimento.entity';
 
 @Component({
   selector: 'app-dettaglio-movimento',
   templateUrl: './dettaglio-movimento.component.html',
-  styleUrls: ['./dettaglio-movimento.component.css']
+  styleUrls: ['./dettaglio-movimento.component.css'],
+  standalone: false,
 })
 export class DettaglioMovimentoComponent implements OnInit {
   movimento?: Movimento;

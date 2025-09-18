@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService, Movimento } from '../../services/login.service';
-import { CurrencyPipe } from '@angular/common';
+import { LoginService } from '../../services/login.service';
+import { Movimento } from '../../entities/Movimento.entity';
 
 @Component({
   selector: 'app-home',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: ['./homepage.component.css'],
+  standalone: false,
 })
 export class HomeComponent implements OnInit {
+  /*AuthService = inject(AuthService);
+  currentUser$ = this.AuthService.currentUser$;
+  */
   saldo = "Caricamento";
   nome = "";
   movimenti: Movimento[] = [];
