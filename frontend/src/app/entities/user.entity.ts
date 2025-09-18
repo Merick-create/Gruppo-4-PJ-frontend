@@ -1,7 +1,8 @@
 export type User={
-  nomeTitolare?: string;
+  nomeTitolare: string;
   cognomeTitolare: string;
   Iban:string;
+  fullname:string;
   username:string;
   password:string;
 }

@@ -10,6 +10,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavUserComponent } from './components/nav-user/nav-user.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoginComponent,
     HomeComponent,
     DettaglioMovimentoComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavUserComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

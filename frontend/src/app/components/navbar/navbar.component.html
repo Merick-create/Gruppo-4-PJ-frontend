@@ -1,0 +1,14 @@
+<nav class="navbar bg-dark navbar-expand mb-3" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="nabar-brand" [routerLink]="['/home']">Banca ITS</a>
+    <div class="collapse navbar-collapse">
+    </div>
+    <ul class="navbar-nav me-3">
+      <app-nav-user
+        *ngIf="(currentUser$ | async) as currentUser;"
+        (logout)="logout()"
+        [user]="currentUser"
+        ></app-nav-user>
+    </ul>
+  </div>
+</nav>
