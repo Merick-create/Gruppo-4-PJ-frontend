@@ -12,8 +12,9 @@ import { RegisterComponent } from './components/register/register.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    HomepageComponent,
-    DettaglioMovimentoComponent
+    HomeComponent,
+    DettaglioMovimentoComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
