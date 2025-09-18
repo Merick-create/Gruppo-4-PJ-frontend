@@ -7,6 +7,8 @@ import { HomeComponent } from './pages/homepage/homepage.component';
 import { DettaglioMovimentoComponent } from './pages/dettaglio-movimento/dettaglio-movimento.component';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './components/register/register.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,15 @@ import { RegisterComponent } from './components/register/register.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+     provideHttpClient(
+      withInterceptors([])
+    )
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

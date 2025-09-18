@@ -1,1 +1,44 @@
-<p>register works!</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col col-lg-4"></div>
+    <div class="col col-lg-4 col-md-12 border rounded p-4">
+      <form (ngSubmit)="register()" [formGroup]="registerForm">
+
+        <div class="form-outline mb-3">
+          <label>First Name</label>
+          <input type="text" class="form-control" formControlName="nomeTitolare">
+        </div>
+
+        <div class="form-outline mb-3">
+          <label>Last Name</label>
+          <input type="text" class="form-control" formControlName="cognomeTitolare">
+        </div>
+
+        <div class="form-outline mb-3">
+          <label>Username</label>
+          <input type="text" class="form-control" formControlName="username">
+        </div>
+
+        <div class="form-outline mb-3">
+          <label>Iban</label>
+          <input type="text" class="form-control" formControlName="iban">
+        </div>
+
+        <div class="form-outline mb-3">
+          <label>Password</label>
+          <input type="password" class="form-control" formControlName="password">
+        </div>
+
+        <div class="text-danger" *ngIf="registerError">
+          {{ registerError }}
+        </div>
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Register</button>
+        </div>
+        <a [routerLink]="['/login']">hai già un account?</a>
+      </form>
+    </div>
+  </div>
+</div>
+

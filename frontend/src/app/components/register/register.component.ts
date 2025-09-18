@@ -10,7 +10,7 @@ import { Subject, catchError, takeUntil, throwError } from 'rxjs';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit, OnDestroy  {
   protected fb = inject(FormBuilder);
   protected authSrv = inject(AuthService);
   protected router = inject(Router);

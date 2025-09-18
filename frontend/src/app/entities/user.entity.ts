@@ -1,6 +1,6 @@
 export type User={
-  cognomeTitolare?: string;
-  nomeTitolare: string;
+  nomeTitolare?: string;
+  cognomeTitolare: string;
   Iban:string;
   username:string;
   password:string;
