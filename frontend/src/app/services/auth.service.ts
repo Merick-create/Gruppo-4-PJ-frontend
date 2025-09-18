@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, distinctUntilChanged, map, of, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, distinctUntilChanged, map, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { JwtService } from './jwt.service';
 import { User } from '../entities/user.entity';
 import { Router } from '@angular/router';
+import { Movimento } from '../entities/Movimento.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,13 @@ export class AuthService {
         tap(res => this._currentUser$.next(res.user)),
         map(res => res.user)
       );
+  }
+  getMovimenti(): Observable<Movimento[]> {
+    return this.http.get<Movimento[]>(`/api/movimenti`);
+  }
+
+  getMovimentoById(id: string): Observable<Movimento> {
+    return this.http.get<Movimento>(`/api/movimenti/${id}`);
   }
 
   register(user: {cognomeTitolare: string;nomeTitolare: string; iban:string; username: string; password:string;}) {

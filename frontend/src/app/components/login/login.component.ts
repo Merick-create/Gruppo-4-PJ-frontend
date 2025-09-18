@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +13,9 @@ export class LoginComponent {
   password = '';
   message = '';
   private timer: any;
+  protected authSrv = inject(AuthService);
 
-  constructor(private router: Router, private login: LoginService) {}
+  constructor(private router: Router) {}
 
   startTimer() {
     clearTimeout(this.timer);
@@ -26,7 +27,7 @@ export class LoginComponent {
   }
 
   doLogin() {
-    this.login.login(this.email, this.password).subscribe({
+    this.authSrv.login(this.email, this.password).subscribe({
       next: (res) => {
         if (res.success) {
           if (res.token) {

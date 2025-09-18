@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login.service';
 import { Movimento } from '../../entities/Movimento.entity';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +10,15 @@ import { Movimento } from '../../entities/Movimento.entity';
   standalone: false,
 })
 export class HomeComponent implements OnInit {
-  /*AuthService = inject(AuthService);
-  currentUser$ = this.AuthService.currentUser$;
-  */
   saldo = "Caricamento";
-  nome = "";
   movimenti: Movimento[] = [];
+  protected AuthService = inject(AuthService);
+  currentUser$ = this.AuthService.currentUser$;
 
-  constructor(private login: LoginService, private router: Router) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.login.getMovimenti().subscribe({
+    this.AuthService.getMovimenti().subscribe({
       next: (res) => {
         this.movimenti = res;
         this.saldo = '€ ' + this.calcolaSaldo(res);
