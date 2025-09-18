@@ -1,1 +1,35 @@
-<p>login works!</p>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4">Login</h2>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        [(ngModel)]="email"
+        (input)="startTimer()"
+        placeholder="Inserisci la tua email"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        [(ngModel)]="password"
+        (input)="startTimer()"
+        placeholder="Inserisci la password"
+      />
+    </div>
+
+    <p class="text-danger small" *ngIf="message">{{ message }}</p>
+
+    <div class="d-grid">
+      <button class="btn btn-success" (click)="doLogin()">Login</button>
+    </div>
+  </div>
+</div>

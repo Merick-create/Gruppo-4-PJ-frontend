@@ -1,5 +1,5 @@
-<div class="card">
-  <h2>Benvenuto {{ nome }}</h2>
+<div class="card" *ngIf="(currentUser$ | async) as currentUser;">
+  <h2>Benvenuto {{ currentUser.nomeTitolare + "" + currentUser.cognomeTitolare }}</h2>
   <p><strong>Saldo conto corrente:</strong> {{ saldo }}</p>
 
   <table>
