@@ -1,23 +1,36 @@
-<div class="card" *ngIf="(currentUser$ | async) as currentUser;">
-  <h2>Benvenuto {{ currentUser.nomeTitolare + "" + currentUser.cognomeTitolare }}</h2>
-  <p><strong>Saldo conto corrente:</strong> {{ saldo }}</p>
+<div class="container mt-5" *ngIf="(currentUser$ | async) as currentUser">
+  <div class="card shadow p-4">
+    <h2 class="mb-3">
+      Benvenuto {{ currentUser.nomeTitolare }} {{ currentUser.cognomeTitolare }}
+    </h2>
+    <p><strong>Saldo conto corrente:</strong> {{ saldo }}</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>Descrizione</th>
-        <th>Importo</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let m of movimenti">
-        <td>{{ m.data }}</td>
-        <td>{{ m.descrizione }}</td>
-        <td>{{ m.importo}}</td>
-        <td><a class="btn" (click)="dettagli(m._id)">Dettagli</a></td>
-      </tr>
-    </tbody>
-  </table>
+    <h4 class="mt-4">Ultimi 5 movimenti</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Data</th>
+            <th>Descrizione</th>
+            <th>Importo</th>
+            <th>Informazioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of movimenti">
+            <td>{{ m.data | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ m.descrizione }}</td>
+            <td [ngClass]="{'text-success': m.importo > 0, 'text-danger': m.importo < 0}">
+              {{ m.importo | currency:'EUR' }}
+            </td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm" (click)="dettagli(m._id)">
+                Dettagli
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

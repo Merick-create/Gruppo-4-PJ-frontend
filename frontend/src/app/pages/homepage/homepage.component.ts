@@ -10,22 +10,25 @@ import { AuthService } from '../../services/auth.service';
   standalone: false,
 })
 export class HomeComponent implements OnInit {
-  saldo = "Caricamento";
+  saldo = 'Caricamento...';
   movimenti: Movimento[] = [];
-  protected AuthService = inject(AuthService);
-  currentUser$ = this.AuthService.currentUser$;
+  protected authSrv = inject(AuthService);
+  currentUser$ = this.authSrv.currentUser$;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.AuthService.getMovimenti().subscribe({
+    this.authSrv.getMovimenti().subscribe({
       next: (res) => {
-        this.movimenti = res;
-        this.saldo = '€ ' + this.calcolaSaldo(res);
+        this.movimenti = res
+          .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
+          .slice(0, 5);
+
+        this.saldo = '€ ' + this.calcolaSaldo(res).toFixed(2);
       },
       error: () => {
         this.saldo = 'Errore nel caricamento saldo';
-      }
+      },
     });
   }
 
