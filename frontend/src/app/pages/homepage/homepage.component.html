@@ -1,0 +1,23 @@
+<div class="card">
+  <h2>Benvenuto {{ nome }}</h2>
+  <p><strong>Saldo conto corrente:</strong> {{ saldo }}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Descrizione</th>
+        <th>Importo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of movimenti">
+        <td>{{ m.data }}</td>
+        <td>{{ m.descrizione }}</td>
+        <td>{{ m.importo | currency :'EUR' }}</td>
+        <td><a class="btn" (click)="dettagli(m._id)">Dettagli</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

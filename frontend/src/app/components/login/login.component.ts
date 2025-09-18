@@ -1,63 +1,43 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, Subject, takeUntil, throwError } from 'rxjs';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
-  standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  protected fb = inject(FormBuilder);
-  protected router = inject(Router);
-  protected activatedRoute = inject(ActivatedRoute);
+export class LoginComponent {
+  email = '';
+  password = '';
+  message = '';
+  private timer: any;
 
-  protected destroyed$ = new Subject<void>();
+  constructor(private router: Router, private login: LoginService) {}
 
-  loginForm = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
-  });
-
-  loginError = '';
-
-  requestedUrl: string | null = null;
-
-  ngOnInit() {
-    this.loginForm.valueChanges
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(_ => {
-        this.loginError = '';
-      });
-
-    this.activatedRoute.queryParams
-      .pipe(
-        takeUntil(this.destroyed$),
-        map(params => params['requestedUrl'])
-      )
-      .subscribe(url => {
-        this.requestedUrl = url;
-      });
+  startTimer() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.email = '';
+      this.password = '';
+      this.message = 'Tempo scaduto! Riprova.';
+    }, 30000);
   }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-
-  login() {
-    const { username, password } = this.loginForm.value;
-    this.authSrv.login(username!, password!)
-      .pipe(
-        catchError(response => {
-          this.loginError = response.error.message;
-          return throwError(() => response);
-        })
-      )
-      .subscribe(() => {
-        this.router.navigate([this.requestedUrl ? this.requestedUrl : '/']);
-      })
+  doLogin() {
+    this.login.login(this.email, this.password).subscribe({
+      next: (res) => {
+        if (res.success) {
+          if (res.token) localStorage.setItem('token', res.token);
+          this.router.navigate(['/home']);
+        } else {
+          this.message = 'Credenziali non valide';
+        }
+      },
+      error: () => {
+        this.message = 'Errore di connessione al server';
+      }
+    });
   }
 }
+
