@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -27,21 +28,15 @@ export class LoginComponent {
   }
 
   doLogin() {
-    this.authSrv.login(this.email, this.password).subscribe({
-      next: (res) => {
-        if (res.success) {
-          if (res.token) {
-            localStorage.setItem('token', res.token);
-          }
-          this.router.navigate(['/home']);
-        } else {
-          this.message = 'Credenziali non valide';
-        }
-      },
-      error: () => {
-        this.message = 'Errore di connessione al server';
-      }
-    });
+    this.authSrv.login(this.email, this.password).pipe(
+      catchError((response) => {
+        this.message = response.error.message;
+        return throwError(() => response);
+      })
+    )
+    .subscribe(() => {
+      this.router.navigate(['/home']);
+    })
   }
 }
 
