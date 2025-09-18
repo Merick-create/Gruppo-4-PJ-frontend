@@ -23,7 +23,8 @@ export class RegisterComponent implements OnInit, OnDestroy  {
     cognomeTitolare: ['', Validators.required],
     iban:['',Validators.required],
     username: ['', Validators.required,Validators.email],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
+    confirmpasword:['',Validators.required]
   });
 
   ngOnInit(): void {
@@ -42,6 +43,10 @@ export class RegisterComponent implements OnInit, OnDestroy  {
   register() {
   const formValue = this.registerForm.value;
 
+   if (formValue.password !== formValue.confirmpasword) {
+    this.registerError = 'Le password non coincidono. Reinseriscile.';
+    return;
+  }
 
   this.authSrv.register({
     nomeTitolare: formValue.nomeTitolare || '',
