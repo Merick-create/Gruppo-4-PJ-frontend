@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/homepage/homepage.component';
 import { authGuard } from './utils/auth.guard';
+import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,10 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canActivate: [authGuard], 
+  },
+  {
+    path: 'movimenti',
+    component: RicercaMovimentiComponent
   },
   {
     path: '**',
