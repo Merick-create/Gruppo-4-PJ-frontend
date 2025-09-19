@@ -1,16 +1,12 @@
 <div class="profilo-container">
   <div class="profilo-card">
-    <!-- Header profilo -->
     <div class="profilo-header">
       <img src="assets/profilo_con_sfondo2-removebg-preview.png" alt="Profilo" class="profilo-img" />
       <h2>{{ currentUser?.NomeTitolare }} {{ currentUser?.CognomeTitolare }}</h2>
     </div>
 
-    <!-- Messaggi di successo / errore -->
     <div *ngIf="message" class="alert success">{{ message }}</div>
     <div *ngIf="error" class="alert error">{{ error }}</div>
-
-    <!-- Form modifica profilo -->
     <form [formGroup]="modificaForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
