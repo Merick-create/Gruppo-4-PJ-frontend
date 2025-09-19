@@ -10,7 +10,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ProfiloComponent implements OnInit {
   currentUser: any;
-  modificaForm!: FormGroup;
+  profilo: any;
+  passwordForm!: FormGroup;
   message: string = '';
   error: string = '';
   loading: boolean = false;
@@ -23,24 +24,50 @@ export class ProfiloComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
       if (user) {
-        this.initForm(user);
+        this.currentUser = user;
+        this.loadProfile(user.id || user.id); // dipende da come lo ricevi
+      }
+    });
+
+    this.initForm();
+  }
+
+  initForm() {
+    this.passwordForm = this.fb.group({
+      Email: ['', [Validators.required, Validators.email]],
+      Password: [''], // opzionale
+      CognomeTitolare: ['', Validators.required],
+      NomeTitolare: ['', Validators.required],
+      DataApertura: [{ value: '', disabled: true }],
+      IBAN: [{ value: '', disabled: true }],        
+      newPassword: ['', [Validators.minLength(6)]]
+    });
+  }
+
+  loadProfile(userId: string) {
+    this.http.get(`/api/contocorrente/${userId}/fullprofile`).subscribe({
+      next: (res: any) => {
+        this.profilo = res;
+
+        // carico i dati nel form
+        this.passwordForm.patchValue({
+          Email: res.Email,
+          CognomeTitolare: res.CognomeTitolare,
+          NomeTitolare: res.NomeTitolare,
+          DataApertura: res.DataApertura,
+          IBAN: res.IBAN
+        });
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Errore nel caricamento del profilo.';
       }
     });
   }
-  initForm(user: any) {
-    this.modificaForm = this.fb.group({
-      fullname: [user.fullname, Validators.required],
-      email: [user.email, [Validators.required, Validators.email]],
-      phoneNumber: [user.phoneNumber, Validators.required],
-      address: [user.address, Validators.required],
-      password: [''] 
-    });
-  }
+
   onSubmit() {
-    if (this.modificaForm.invalid) {
-      this.error = 'Compila tutti i campi correttamente.';
+    if (this.passwordForm.get('newPassword')?.invalid) {
+      this.error = 'Inserisci una password valida (minimo 6 caratteri).';
       return;
     }
 
@@ -48,30 +75,16 @@ export class ProfiloComponent implements OnInit {
     this.error = '';
     this.message = '';
 
-    const updateData: any = {
-      fullname: this.modificaForm.value.fullname,
-      email: this.modificaForm.value.email,
-      phoneNumber: this.modificaForm.value.phoneNumber,
-      address: this.modificaForm.value.address
-    };
+    const payload = { newPassword: this.passwordForm.value.newPassword };
 
-    const credentials: any = {};
-    if (this.modificaForm.value.password) {
-      credentials.password = this.modificaForm.value.password;
-    }
-
-    const payload: any = Object.keys(credentials).length > 0
-      ? { updateData, credentials }
-      : { updateData };
-
-    this.http.put(`/api/user/${this.currentUser._id}`, payload).subscribe({
-      next: (res: any) => {
-        this.message = 'Profilo aggiornato con successo!';
+    this.http.put(`/api/contocorrente/${this.currentUser._id}/password`, payload).subscribe({
+      next: () => {
+        this.message = 'Password aggiornata con successo!';
         this.loading = false;
-        this.authService.updateCurrentUser(res);
+        this.passwordForm.get('newPassword')?.reset();
       },
       error: (err) => {
-        this.error = err.error?.message || 'Errore durante l\'aggiornamento del profilo.';
+        this.error = err.error?.message || 'Errore durante il cambio password.';
         this.loading = false;
       }
     });
