@@ -1,57 +1,72 @@
-<div class="container">
-  <h2>Ricerca Movimenti</h2>
+<div class="container my-4">
+  <h2 class="mb-4 text-primary">📊 Ricerca Movimenti</h2>
 
-  <form [formGroup]="form" (ngSubmit)="cerca()">
-    <label>Tipo ricerca:</label>
-    <select formControlName="tipoRicerca">
-      <option value="1">Ultimi n movimenti + saldo</option>
-      <option value="2">Ultimi n movimenti per categoria</option>
-      <option value="3">Ultimi n movimenti fra due date</option>
-    </select>
+  <form [formGroup]="form" (ngSubmit)="cerca()" class="row g-3">
 
-    <div>
-      <label>n movimenti:</label>
-      <input type="number" formControlName="n" />
+    <div class="col-md-6">
+      <label class="form-label">Tipo ricerca:</label>
+      <select class="form-select" formControlName="tipoRicerca">
+        <option value="1">Ultimi n movimenti + saldo</option>
+        <option value="2">Ultimi n movimenti per categoria</option>
+        <option value="3">Ultimi n movimenti fra due date</option>
+      </select>
     </div>
 
-    <div *ngIf="form.value.tipoRicerca === '2'">
-      <label>Categoria:</label>
-      <input type="text" formControlName="categoria" />
+    <div class="col-md-6">
+      <label class="form-label">n movimenti:</label>
+      <input type="number" class="form-control" formControlName="n" />
     </div>
 
-    <div *ngIf="form.value.tipoRicerca === '3'">
-      <label>Data inizio:</label>
-      <input type="date" formControlName="dataInizio" />
-      <label>Data fine:</label>
-      <input type="date" formControlName="dataFine" />
+    <div class="col-md-6" *ngIf="form.value.tipoRicerca === '2'">
+      <label class="form-label">Categoria:</label>
+      <input type="text" class="form-control" formControlName="categoria" />
     </div>
 
-    <button type="submit">Cerca</button>
+    <div class="col-md-3" *ngIf="form.value.tipoRicerca === '3'">
+      <label class="form-label">Data inizio:</label>
+      <input type="date" class="form-control" formControlName="dataInizio" />
+    </div>
+
+    <div class="col-md-3" *ngIf="form.value.tipoRicerca === '3'">
+      <label class="form-label">Data fine:</label>
+      <input type="date" class="form-control" formControlName="dataFine" />
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary mt-2">
+        🔍 Cerca
+      </button>
+    </div>
   </form>
 
-  <div *ngIf="movimenti.length > 0">
-    <h3>Risultati</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Importo</th>
-          <th>Categoria</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let m of movimenti">
-          <td>{{ m.data }}</td>
-          <td>{{ m.importo }}</td>
-          <td>{{ m.CategoriaMovimentoid.NomeCategoria }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="movimenti.length > 0" class="mt-5">
+    <h3 class="mb-3">📑 Risultati</h3>
 
-    <div *ngIf="saldoFinale !== null">
-      <h4>Saldo finale: {{ saldoFinale }}</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Data</th>
+            <th>Importo</th>
+            <th>Categoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of movimenti">
+            <td>{{ m.data | date:'dd/MM/yyyy' }}</td>
+            <td>{{ m.importo | currency:'EUR' }}</td>
+            <td>{{ m.CategoriaMovimentoid.NomeCategoria }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <button (click)="exportCSV()">Esporta CSV</button>
+    <div *ngIf="saldoFinale !== null" class="alert alert-info mt-3">
+      💰 Saldo finale: <strong>{{ saldoFinale | currency:'EUR' }}</strong>
+    </div>
+
+    <button (click)="exportCSV()" class="btn btn-success mt-3">
+      ⬇️ Esporta CSV
+    </button>
   </div>
 </div>
