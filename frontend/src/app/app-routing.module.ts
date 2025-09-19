@@ -5,6 +5,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/homepage/homepage.component';
 import { AuthGuard } from './utils/auth.guard';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
+import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
   { 
     path: 'ricarica', 
     component: RicaricaComponent 
+  },
+  {
+    path: 'movimenti',
+    component: RicercaMovimentiComponent
   },
   {
     path: '**',
