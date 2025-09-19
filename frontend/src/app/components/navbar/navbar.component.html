@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="navbar-left">
-    <a href="#" class="logo">
+    <a routerLink="/home" class="logo">
       <img src="assets/banca_con_sfondo-removebg-preview.png" alt="Logo" class="logo-img" />
       <span>Banca<span>ITS</span></span>
     </a>
@@ -16,7 +16,9 @@
 
   <div class="navbar-right">
     <div class="user-info" *ngIf="(currentUser$ | async) as currentUser">
-      <img src="assets\profilo_con_sfondo2-removebg-preview.png" alt="User" class="user-img" />
+      <a routerLink="/profilo">
+      <img src="assets/profilo_con_sfondo2-removebg-preview.png" alt="User" class="user-img" />
+      </a>
       <span class="username">{{ currentUser.fullname }}</span>
     </div>
   </div>

@@ -10,6 +10,8 @@ import { Movimento } from '../entities/Movimento.entity';
   providedIn: 'root'
 })
 export class AuthService {
+  private _currentUser2$ = new BehaviorSubject<User | null>(null);
+
   protected http = inject(HttpClient);
   protected jwtSrv = inject(JwtService);
   protected router = inject(Router);
@@ -64,5 +66,10 @@ export class AuthService {
     this.jwtSrv.removeToken();
     this._currentUser$.next(null);
   }
+
+   updateCurrentUser(user: any) {
+  this._currentUser2$.next(user);
+  localStorage.setItem('user', JSON.stringify(user));
+}
 
 }

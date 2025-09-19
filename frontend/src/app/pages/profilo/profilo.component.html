@@ -1,0 +1,51 @@
+<div class="profilo-container">
+  <div class="profilo-card">
+    <!-- Header profilo -->
+    <div class="profilo-header">
+      <img src="assets/profilo_con_sfondo2-removebg-preview.png" alt="Profilo" class="profilo-img" />
+      <h2>{{ currentUser?.NomeTitolare }} {{ currentUser?.CognomeTitolare }}</h2>
+    </div>
+
+    <!-- Messaggi di successo / errore -->
+    <div *ngIf="message" class="alert success">{{ message }}</div>
+    <div *ngIf="error" class="alert error">{{ error }}</div>
+
+    <!-- Form modifica profilo -->
+    <form [formGroup]="modificaForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" formControlName="Email" />
+      </div>
+
+      <div class="form-group">
+        <label for="Password">Nuova Password (opzionale)</label>
+        <input type="password" id="Password" formControlName="Password" placeholder="Lascia vuoto per non cambiare" />
+      </div>
+
+      <div class="form-group">
+        <label for="CognomeTitolare">Cognome</label>
+        <input type="text" id="CognomeTitolare" formControlName="CognomeTitolare" />
+      </div>
+
+      <div class="form-group">
+        <label for="NomeTitolare">Nome</label>
+        <input type="text" id="NomeTitolare" formControlName="NomeTitolare" />
+      </div>
+
+      <div class="form-group">
+        <label for="DataApertura">Data Apertura</label>
+        <input type="date" id="DataApertura" formControlName="DataApertura" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="IBAN">IBAN</label>
+        <input type="text" id="IBAN" formControlName="IBAN" readonly />
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Aggiornamento...' : 'Aggiorna Profilo' }}
+      </button>
+    </form>
+  </div>
+</div>

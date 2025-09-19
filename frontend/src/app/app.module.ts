@@ -13,6 +13,7 @@ import { NavUserComponent } from './components/nav-user/nav-user.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
+import { ProfiloComponent } from './pages/profilo/profilo.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component
     NavUserComponent,
     NavbarComponent,
     RicaricaComponent,
-    RicercaMovimentiComponent
+    RicercaMovimentiComponent,
+    ProfiloComponent
   ],
   imports: [
     BrowserModule,

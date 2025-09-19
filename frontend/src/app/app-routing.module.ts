@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/homepage/homepage.component';
 import { AuthGuard } from './utils/auth.guard';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
+import { ProfiloComponent } from './pages/profilo/profilo.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'movimenti',
     component: RicercaMovimentiComponent
+  },
+  {
+    path: 'profilo',
+    component: ProfiloComponent
   },
   {
     path: '**',
