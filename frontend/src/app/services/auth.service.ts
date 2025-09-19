@@ -50,7 +50,7 @@ export class AuthService {
       );
   }
   getMovimenti(): Observable<Movimento[]> {
-    return this.http.get<Movimento[]>(`/api/movimenti`);
+    return this.http.get<Movimento[]>(`/api/movimenti/ricerca`);
   }
 
   getMovimentoById(id: string): Observable<Movimento> {

@@ -1,8 +1,12 @@
 <div class="dashboard-wrapper" *ngIf="(currentUser$ | async) as currentUser">
   <div class="credit-card">
     <div class="card-top">
-      <img src="assets/chip.png" class="chip-icon" alt="chip">
-      <img src="assets/visa-logo.png" class="visa-logo" alt="visa">
+      <img src="assets\chip-removebg-preview.png" class="chip-icon" alt="chip">
+      <img src="assets\VISA-logo-removebg-preview.png" class="visa-logo" alt="visa">
+    </div>
+    <div class="card-balance-display">
+      <h2 class="balance-title">Saldo disponibile</h2>
+      <h1 class="balance-amount">{{ saldo | currency:'EUR' }}</h1>
     </div>
     <div class="card-number-section">
       <span class="card-number">**** **** **** {{ currentUser.Iban?.slice(-4) }}</span>
@@ -12,9 +16,9 @@
         <small>Card Holder</small>
         <p class="card-holder">{{ currentUser.nomeTitolare }} {{ currentUser.cognomeTitolare }}</p>
       </div>
-      <div class="card-balance-info">
-        <small>Balance</small>
-        <h3 class="card-balance">{{ saldo | currency:'EUR' }}</h3>
+      <div class="card-expiry-info">
+        <small>Valid Thru</small>
+        <p>12/25</p>
       </div>
     </div>
   </div>

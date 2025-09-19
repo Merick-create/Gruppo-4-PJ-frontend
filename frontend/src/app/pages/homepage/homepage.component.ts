@@ -10,10 +10,12 @@ import { AuthService } from '../../services/auth.service';
   standalone: false,
 })
 export class HomeComponent implements OnInit {
-  saldo = 'Caricamento...';
+  saldo: number = 0;
   movimenti: Movimento[] = [];
   protected authSrv = inject(AuthService);
   currentUser$ = this.authSrv.currentUser$;
+  loadingSaldo: boolean = true;
+  errorSaldo: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -24,10 +26,12 @@ export class HomeComponent implements OnInit {
           .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
           .slice(0, 5);
 
-        this.saldo = '€ ' + this.calcolaSaldo(res).toFixed(2);
+        this.saldo = this.calcolaSaldo(res);
+        this.loadingSaldo = false;
       },
       error: () => {
-        this.saldo = 'Errore nel caricamento saldo';
+        this.errorSaldo = true;
+        this.loadingSaldo = false;
       },
     });
   }
