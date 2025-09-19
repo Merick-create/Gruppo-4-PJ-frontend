@@ -34,8 +34,11 @@ export class LoginComponent {
         return throwError(() => response);
       })
     )
-    .subscribe(() => {
-      this.router.navigate(['/']);
+    .subscribe((res) => {
+     if (res.token) {
+      localStorage.setItem('token', res.token); 
+    }
+    this.router.navigate(['/home']);
     })
   }
 }
