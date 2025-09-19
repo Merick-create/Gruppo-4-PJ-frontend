@@ -40,7 +40,6 @@ export class BonificoComponent implements OnInit {
       categoria: ['', Validators.required]
     });
 
-    // prendi id utente corrente
     this.currentUser$ = this.authService.currentUser$;
     this.authService.currentUser$.subscribe(user => {
       if (user) this.currentUserId = user.id;
