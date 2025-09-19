@@ -11,19 +11,19 @@ export class MovimentiService {
 
   ricercaMov1(n: number): Observable<{ movimenti: Movimento[], saldo: number }> {
     return this.http.get<{ movimenti: Movimento[], saldo: number }>(
-      `${this.apiUrl}/ricerca1?n=${n}`
+      `${this.apiUrl}/ricerca?n=${n}`
     );
   }
 
   ricercaMov2(n: number, categoria: string): Observable<Movimento[]> {
     return this.http.get<Movimento[]>(
-      `${this.apiUrl}/ricerca2?n=${n}&categoria=${categoria}`
+      `${this.apiUrl}/categoria?n=${n}&categoria=${categoria}`
     );
   }
 
   ricercaMov3(n: number, dataInizio: string, dataFine: string): Observable<Movimento[]> {
     return this.http.get<Movimento[]>(
-      `${this.apiUrl}/ricerca3?n=${n}&dataInizio=${dataInizio}&dataFine=${dataFine}`
+      `${this.apiUrl}/date?n=${n}&dataInizio=${dataInizio}&dataFine=${dataFine}`
     );
   }
 
