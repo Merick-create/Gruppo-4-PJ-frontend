@@ -1,8 +1,12 @@
 export interface Movimento {
-  _id: string;
+  _Id: string;
   data: string;
-  descrizione: string;
   importo: number;
-  tipo: string;
   conto: string;
+  CategoriaMovimentoid: { 
+    _id: string;
+    NomeCategoria: string;
+    Tipologia: string;
+  };
+  descrizione: string;
 }
