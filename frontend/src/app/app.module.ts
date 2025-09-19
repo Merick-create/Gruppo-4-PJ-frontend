@@ -12,6 +12,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavUserComponent } from './components/nav-user/nav-user.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     DettaglioMovimentoComponent,
     RegisterComponent,
     NavUserComponent,
-    NavbarComponent
+    NavbarComponent,
+    RicaricaComponent
   ],
   imports: [
     BrowserModule,

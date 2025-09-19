@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/homepage/homepage.component';
-import { authGuard } from './utils/auth.guard';
+import { AuthGuard } from './utils/auth.guard';
+import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [authGuard], 
+    canActivate: [AuthGuard], 
+  },
+  { 
+    path: 'ricarica', 
+    component: RicaricaComponent 
   },
   {
     path: '**',

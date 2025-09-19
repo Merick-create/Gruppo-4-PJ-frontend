@@ -1,0 +1,54 @@
+<div class="ricarica-container">
+  <h2>Ricarica Telefonica</h2>
+
+  <!-- Messaggi di successo / errore -->
+  <div *ngIf="message" class="alert success">{{ message }}</div>
+  <div *ngIf="error" class="alert error">{{ error }}</div>
+
+  <form [formGroup]="ricaricaForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="numeroTelefono">Numero di telefono</label>
+      <input
+        type="text"
+        id="numeroTelefono"
+        formControlName="numeroTelefono"
+        placeholder="Inserisci numero di telefono"
+      />
+      <small *ngIf="ricaricaForm.get('numeroTelefono')?.invalid && ricaricaForm.get('numeroTelefono')?.touched">
+        Inserisci un numero valido di 10 cifre.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="importo">Importo (€)</label>
+       <select id="importo" formControlName="importo">
+        <option value="">Seleziona importo</option>
+        <option value="5">5 €</option>
+        <option value="10">10 €</option>
+        <option value="20">20 €</option>
+        <option value="30">30 €</option>
+  </select>
+      <small *ngIf="ricaricaForm.get('importo')?.invalid && ricaricaForm.get('importo')?.touched">
+        Inserisci un importo valido maggiore di 0.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="operatore">Operatore</label>
+      <select id="operatore" formControlName="operatore">
+        <option value="">Seleziona operatore</option>
+        <option value="TIM">TIM</option>
+        <option value="Vodafone">Vodafone</option>
+        <option value="WindTre">WindTre</option>
+        <option value="Iliad">Iliad</option>
+      </select>
+      <small *ngIf="ricaricaForm.get('operatore')?.invalid && ricaricaForm.get('operatore')?.touched">
+        Seleziona un operatore.
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'In corso...' : 'Ricarica' }}
+    </button>
+  </form>
+</div>
