@@ -14,6 +14,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 import { ProfiloComponent } from './pages/profilo/profilo.component';
+import { BonificoComponent } from './pages/bonifico/bonifico.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ProfiloComponent } from './pages/profilo/profilo.component';
     NavbarComponent,
     RicaricaComponent,
     RicercaMovimentiComponent,
-    ProfiloComponent
+    ProfiloComponent,
+    BonificoComponent
   ],
   imports: [
     BrowserModule,

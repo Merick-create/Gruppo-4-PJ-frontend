@@ -5,6 +5,8 @@ import { JwtService } from './jwt.service';
 import { User } from '../entities/user.entity';
 import { Router } from '@angular/router';
 import { Movimento } from '../entities/Movimento.entity';
+import { HttpHeaders } from '@angular/common/http';
+import { MovimentiDTO } from '../entities/MovimentiDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -50,12 +52,20 @@ export class AuthService {
       );
   }
   getMovimenti(): Observable<Movimento[]> {
-    return this.http.get<Movimento[]>(`/api/movimenti/ricerca`);
+    const token = this.jwtSrv.getToken();
+    const headers = new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : ''
+      });
+    return this.http.get<Movimento[]>('/api/movimenti/ricerca', { headers });
   }
 
   getMovimentoById(id: string): Observable<Movimento> {
-    return this.http.get<Movimento>(`/api/movimenti/${id}`);
-  }
+    const token = this.jwtSrv.getToken();
+    const headers = new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : ''
+    });
+    return this.http.get<Movimento>(`/api/movimenti/${id}`, { headers });
+}
 
   register(user: {cognomeTitolare: string;nomeTitolare: string; iban:string; username: string; password:string;}) {
   return this.http.post<User>('/api/register', user)
@@ -67,9 +77,13 @@ export class AuthService {
     this._currentUser$.next(null);
   }
 
-   updateCurrentUser(user: any) {
+  updateCurrentUser(user: any) {
   this._currentUser2$.next(user);
   localStorage.setItem('user', JSON.stringify(user));
 }
+
+ eseguiBonifico(dto: MovimentiDTO, mittenteId: string): Observable<any> {
+    return this.http.post(`/api/movimenti/bonifico/${mittenteId}`, dto);
+  }
 
 }

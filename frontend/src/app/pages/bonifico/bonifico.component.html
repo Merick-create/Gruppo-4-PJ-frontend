@@ -1,0 +1,28 @@
+<div class="bonifico-container">
+  <div class="bonifico-card">
+    <div class="card-header">
+      <div class="card-deco-circle top-left"></div>
+      <div class="card-deco-circle bottom-right"></div>
+      <h2>Effettua Bonifico</h2>
+    </div>
+
+    <div *ngIf="message" class="success">{{ message }}</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <form (ngSubmit)="onSubmit()" #bonificoForm="ngForm">
+
+      <label for="ibanDestinatario">IBAN Destinatario</label>
+      <input type="text" id="ibanDestinatario" [(ngModel)]="ibanDestinatario" name="ibanDestinatario" required placeholder="DE12 5001 0517 0648 4898 90" />
+
+      <label for="importo">Importo (€)</label>
+      <input type="number" id="importo" [(ngModel)]="importo" name="importo" required placeholder="Inserisci importo" />
+
+      <label for="descrizione">Descrizione</label>
+      <input type="text" id="descrizione" [(ngModel)]="descrizione" name="descrizione" placeholder="Causale bonifico (opzionale)" />
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Invio...' : 'Esegui Bonifico' }}
+      </button>
+    </form>
+  </div>
+</div>

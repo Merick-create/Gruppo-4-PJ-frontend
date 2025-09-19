@@ -7,6 +7,7 @@ import { AuthGuard } from './utils/auth.guard';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 import { ProfiloComponent } from './pages/profilo/profilo.component';
+import { BonificoComponent } from './pages/bonifico/bonifico.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path: 'profilo',
     component: ProfiloComponent
+  },
+  {
+    path: 'bonifico',
+    component: BonificoComponent
   },
   {
     path: '**',
