@@ -1,14 +1,23 @@
-<nav class="navbar bg-dark navbar-expand mb-3" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="nabar-brand" [routerLink]="['/home']">Banca ITS</a>
-    <div class="collapse navbar-collapse">
-    </div>
-    <ul class="navbar-nav me-3">
-      <app-nav-user
-        *ngIf="(currentUser$ | async) as currentUser;"
-        (logout)="logout()"
-        [user]="currentUser"
-        ></app-nav-user>
+<nav class="navbar">
+  <div class="navbar-left">
+    <a href="#" class="logo">
+      <img src="assets/banca_con_sfondo-removebg-preview.png" alt="Logo" class="logo-img" />
+      <span>Banca<span>ITS</span></span>
+    </a>
+  </div>
+
+  <div class="navbar-center">
+    <ul class="nav-links">
+      <li><a routerLink="/movimenti">Movimenti</a></li>
+      <li><a routerLink="/bonifico">Bonifico</a></li>
+      <li><a routerLink="/ricarica">Ricarica Telefonica</a></li>
     </ul>
+  </div>
+
+  <div class="navbar-right">
+    <div class="user-info" *ngIf="(currentUser$ | async) as currentUser">
+      <img src="assets\profilo_con_sfondo2-removebg-preview.png" alt="User" class="user-img" />
+      <span class="username">{{ currentUser.fullname }}</span>
+    </div>
   </div>
 </nav>
