@@ -1,0 +1,82 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.credit-card {
+  margin: 0 auto 30px;  /* modificato per centrare */
+}
+
+.movimenti-container {
+  width: 100%;
+  max-width: 800px;  /* aggiunto per limitare la larghezza */
+  margin: 0 auto;    /* per centrare */
+  padding: 20px;
+}
+
+
+.credit-card {
+  background: linear-gradient(45deg, #1a1f71, #2557a7);
+  border-radius: 16px;
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1.6/1;
+  position: relative;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  margin-bottom: 30px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.chip-icon {
+  width: 50px;
+  height: auto;
+}
+
+.visa-logo {
+  width: 70px;
+  height: auto;
+}
+
+.card-number-section {
+  margin-bottom: 30px;
+}
+
+.card-number {
+  font-size: 22px;
+  letter-spacing: 2px;
+  font-family: "Courier New", monospace;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-holder-info small,
+.card-balance-info small {
+  text-transform: uppercase;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.card-holder,
+.card-balance {
+  margin: 5px 0 0;
+  font-size: 16px;
+}
+
+.card-balance {
+  font-weight: bold;
+}

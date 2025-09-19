@@ -1,36 +1,34 @@
-<div class="container mt-5" *ngIf="(currentUser$ | async) as currentUser">
-  <div class="card shadow p-4">
-    <h2 class="mb-3">
-      Benvenuto {{ currentUser.nomeTitolare }} {{ currentUser.cognomeTitolare }}
-    </h2>
-    <p><strong>Saldo conto corrente:</strong> {{ saldo }}</p>
+<div class="dashboard-wrapper" *ngIf="(currentUser$ | async) as currentUser">
+  <div class="credit-card">
+    <div class="card-top">
+      <img src="assets/chip.png" class="chip-icon" alt="chip">
+      <img src="assets/visa-logo.png" class="visa-logo" alt="visa">
+    </div>
+    <div class="card-number-section">
+      <span class="card-number">**** **** **** {{ currentUser.Iban?.slice(-4) }}</span>
+    </div>
+    <div class="card-details">
+      <div class="card-holder-info">
+        <small>Card Holder</small>
+        <p class="card-holder">{{ currentUser.nomeTitolare }} {{ currentUser.cognomeTitolare }}</p>
+      </div>
+      <div class="card-balance-info">
+        <small>Balance</small>
+        <h3 class="card-balance">{{ saldo | currency:'EUR' }}</h3>
+      </div>
+    </div>
+  </div>
 
-    <h4 class="mt-4">Ultimi 5 movimenti</h4>
-    <div class="table-responsive">
-      <table class="table table-striped table-hover align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Data</th>
-            <th>Descrizione</th>
-            <th>Importo</th>
-            <th>Informazioni</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let m of movimenti">
-            <td>{{ m.data | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ m.descrizione }}</td>
-            <td [ngClass]="{'text-success': m.importo > 0, 'text-danger': m.importo < 0}">
-              {{ m.importo | currency:'EUR' }}
-            </td>
-            <td>
-              <button class="btn btn-outline-primary btn-sm" (click)="dettagli(m._Id)">
-                Dettagli
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="movimenti-container">
+    <h4>Ultimi Movimenti</h4>
+    <div *ngFor="let m of movimenti" class="movimento-item">
+      <div class="movimento-left">
+        <span class="movimento-data">{{ m.data | date:'dd/MM/yyyy' }}</span>
+        <span class="movimento-desc">{{ m.descrizione }}</span>
+      </div>
+      <div class="movimento-right" [ngClass]="{'positivo': m.importo > 0, 'negativo': m.importo < 0}">
+        {{ m.importo | currency:'EUR' }}
+      </div>
     </div>
   </div>
 </div>
