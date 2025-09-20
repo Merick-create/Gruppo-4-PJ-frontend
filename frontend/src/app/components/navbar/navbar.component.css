@@ -1,14 +1,15 @@
+/* Stile generale navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
   background: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Logo con immagine accanto al testo */
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -25,10 +26,10 @@
 }
 
 .logo span span {
-  color: #ff4500; /* arancione ITS */
+  color: #ff4500;
 }
 
-/* Menu al centro */
+/* Link centrali */
 .navbar-center {
   flex: 1;
   display: flex;
@@ -56,8 +57,9 @@
   margin-right: 8px;
 }
 
-/* Info utente a destra */
+/* Utente a destra */
 .navbar-right {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -65,7 +67,15 @@
 .user-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.user-info:hover {
+  background: #f5f5f5;
 }
 
 .user-img {
@@ -78,4 +88,50 @@
 .username {
   font-weight: 500;
   color: #333;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.user-info:hover .dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown a {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.dropdown a:hover {
+  background: #f0f0f0;
 }
