@@ -41,8 +41,8 @@ export class ProfiloComponent implements OnInit {
       NomeTitolare: ['', Validators.required],
       DataApertura: [{ value: '', disabled: true }],
       IBAN: [{ value: '', disabled: true }],
-      oldPassword:[''],        
-      newPassword: ['', [Validators.minLength(6)]]
+      oldPassword:['',Validators.required],        
+      newPassword: ['', [Validators.minLength(6),Validators.required]]
     });
   }
 
@@ -67,6 +67,7 @@ export class ProfiloComponent implements OnInit {
   }
 
   onSubmit() {
+
     if (this.passwordForm.get('newPassword')?.invalid) {
       this.error = 'Inserisci una password valida (minimo 6 caratteri).';
       return;
