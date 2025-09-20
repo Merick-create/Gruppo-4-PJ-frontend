@@ -40,7 +40,8 @@ export class ProfiloComponent implements OnInit {
       CognomeTitolare: ['', Validators.required],
       NomeTitolare: ['', Validators.required],
       DataApertura: [{ value: '', disabled: true }],
-      IBAN: [{ value: '', disabled: true }],        
+      IBAN: [{ value: '', disabled: true }],
+      oldPassword:[''],        
       newPassword: ['', [Validators.minLength(6)]]
     });
   }
@@ -75,13 +76,17 @@ export class ProfiloComponent implements OnInit {
     this.error = '';
     this.message = '';
 
-    const payload = { password: this.passwordForm.value.newPassword };
+    const payload = {
+      oldPassword: this.passwordForm.value.oldPassword,
+      newPassword: this.passwordForm.value.newPassword
+    };
 
     this.http.post(`/api/updatePassword`, payload).subscribe({
       next: () => {
         this.message = 'Password aggiornata con successo!';
         this.loading = false;
         this.passwordForm.get('newPassword')?.reset();
+        this.passwordForm.get('oldPassword')?.reset();
       },
       error: (err) => {
         this.error = err.error?.message || 'Errore durante il cambio password.';
