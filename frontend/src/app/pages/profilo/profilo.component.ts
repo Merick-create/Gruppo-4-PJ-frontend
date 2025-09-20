@@ -75,9 +75,9 @@ export class ProfiloComponent implements OnInit {
     this.error = '';
     this.message = '';
 
-    const payload = { newPassword: this.passwordForm.value.newPassword };
+    const payload = { password: this.passwordForm.value.newPassword };
 
-    this.http.put(`/api/contocorrente/${this.currentUser._id}/password`, payload).subscribe({
+    this.http.post(`/api/updatePassword`, payload).subscribe({
       next: () => {
         this.message = 'Password aggiornata con successo!';
         this.loading = false;
