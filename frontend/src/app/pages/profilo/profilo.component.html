@@ -13,32 +13,27 @@
     <div *ngIf="error" class="alert error">{{ error }}</div>
     <div class="form-group">
       <label for="Email">Email</label>
-      <input type="email" id="Email" [value]="profilo?.email" readonly />
+      <div>{{profilo?.email}}</div>
     </div>
 
     <div class="form-group">
       <label for="CognomeTitolare">Cognome</label>
-      <input type="text" id="CognomeTitolare" [value]="profilo?.cognomeTitolare" readonly />
+      <div>{{profilo?.cognomeTitolare}}</div>
     </div>
 
     <div class="form-group">
       <label for="NomeTitolare">Nome</label>
-      <input type="text" id="NomeTitolare" [value]="profilo?.nomeTitolare" readonly />
+      <div>{{profilo?.nomeTitolare}}</div>
     </div>
 
     <div class="form-group">
       <label for="DataApertura">Data Apertura</label>
-      <input
-        type="date"
-        id="DataApertura"
-        [value]="profilo?.dataApertura | date:'yyyy-MM-dd'"
-        readonly
-      />
+      <div>{{profilo?.dataApertura}}</div>
     </div>
 
     <div class="form-group">
       <label for="IBAN">IBAN</label>
-      <input type="text" id="IBAN" [value]="profilo?.iban" readonly />
+      <div>{{profilo?.iban}}</div>
     </div>
     <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
