@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Movimento } from '../entities/Movimento.entity';
 import { HttpHeaders } from '@angular/common/http';
 import { MovimentiDTO } from '../entities/MovimentiDTO';
+import { Categoria } from '../entities/categorie';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,9 @@ export class AuthService {
   register(user: {cognomeTitolare: string;nomeTitolare: string; iban:string; username: string; password:string;}) {
   return this.http.post<User>('/api/register', user)
 }
+ getToken(): string | null {
+    return this.jwtSrv.getToken();
+  }
 
 
   logout() {
@@ -85,5 +89,21 @@ export class AuthService {
  eseguiBonifico(dto: MovimentiDTO, mittenteId: string): Observable<any> {
     return this.http.post(`/api/movimenti/bonifico/${mittenteId}`, dto);
   }
+
+    ricarica(ricaricaDto: MovimentiDTO) {
+    const token = this.getToken(); 
+    const headers = new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : ''
+    });
+    return this.http.post<{message: string}>('/api/movimenti/ricarica', ricaricaDto, { headers });
+  }
+
+  getCategorie(): Observable<Categoria[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+    Authorization: token ? `Bearer ${token}` : ''
+    });
+    return this.http.get<Categoria[]>('/api/categorie', { headers });
+}
 
 }
