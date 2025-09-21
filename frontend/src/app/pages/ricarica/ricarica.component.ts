@@ -16,8 +16,8 @@ export class RicaricaComponent implements OnInit {
   message: string = '';
   error: string = '';
   loading: boolean = false;
-  nomeCategoria: string = 'Ricarica';
 
+  nomeCategoria: string = 'Ricarica';
   categoriaRicaricaId: string = '';
   contoCorrenteId: string = '';
 
@@ -26,46 +26,48 @@ export class RicaricaComponent implements OnInit {
   private http = inject(HttpClient);
 
   ngOnInit(): void {
-    // inizializza il form
+    // 1. Inizializzo il form
     this.ricaricaForm = this.fb.group({
       numeroTelefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       importo: ['', [Validators.required, Validators.min(1)]],
       operatore: ['', Validators.required]
     });
 
+    // 2. Recupero l'ID del conto corrente dell'utente
     this.authService.currentUser$.subscribe(user => {
-      if (user) this.contoCorrenteId = user.id || user.id;
+      if (user) this.contoCorrenteId = user.id;
     });
 
-    this.http.get<{ id: string }>(`/api/categorie/nome/`)
+    // 3. Recupero l'ID della categoria "Ricarica"
+    this.http.get<{ id: string }>(`/api/categorie/nome/${this.nomeCategoria}`)
       .subscribe({
-        next: (res) => {
-          this.categoriaRicaricaId = res.id;
-        },
+        next: (res) => this.categoriaRicaricaId = res.id,
         error: (err) => {
-          console.error('Categoria "ricarica" non trovata', err);
+          console.error('Categoria "Ricarica" non trovata', err);
           this.error = 'Impossibile recuperare la categoria ricarica.';
         }
       });
   }
 
+  // 4. Al click del bottone "Ricarica"
   onSubmit(): void {
     this.message = '';
     this.error = '';
 
+    // Controlli sul form
     if (this.ricaricaForm.invalid) {
       this.error = 'Compila tutti i campi correttamente.';
       return;
     }
 
     if (!this.categoriaRicaricaId || !this.contoCorrenteId) {
-      console.log(this.categoriaRicaricaId, this.contoCorrenteId);
       this.error = 'Dati non disponibili per eseguire la ricarica.';
       return;
     }
 
     this.loading = true;
 
+    // 5. Costruisco il DTO da inviare al backend
     const ricaricaDto: MovimentiDTO = {
       ContoCorrenteId: this.contoCorrenteId,
       numeroTelefono: this.ricaricaForm.value.numeroTelefono,
@@ -74,17 +76,17 @@ export class RicaricaComponent implements OnInit {
       importo: this.ricaricaForm.value.importo,
       descrizione: `Ricarica ${this.ricaricaForm.value.operatore} numero ${this.ricaricaForm.value.numeroTelefono}`,
     };
-
-    this.authService.ricarica(ricaricaDto).subscribe({
-      next: (res: any) => {
-        this.message = res.message || 'Ricarica eseguita con successo!';
-        this.loading = false;
-        this.ricaricaForm.reset();
-      },
-      error: (err) => {
-        this.error = err.error?.message || 'Errore durante la ricarica.';
-        this.loading = false;
-      }
-    });
+    this.http.post<{ message: string }>('/api/movimenti/ricarica', ricaricaDto)
+      .subscribe({
+        next: (res) => {
+          this.message = res.message || 'Ricarica eseguita con successo!';
+          this.loading = false;
+          this.ricaricaForm.reset();
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Errore durante la ricarica.';
+          this.loading = false;
+        }
+      });
   }
 }
