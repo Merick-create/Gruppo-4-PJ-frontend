@@ -53,11 +53,7 @@ export class AuthService {
       );
   }
   getMovimenti(): Observable<Movimento[]> {
-    const token = this.jwtSrv.getToken();
-    const headers = new HttpHeaders({
-      Authorization: token ? `Bearer ${token}` : ''
-      });
-    return this.http.get<Movimento[]>('/api/movimenti/ricerca', { headers });
+    return this.http.get<Movimento[]>('/api/movimenti/ricerca');
   }
 
   getMovimentoById(id: string): Observable<Movimento> {
