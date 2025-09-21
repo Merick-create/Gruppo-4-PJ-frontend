@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Movimento } from '../entities/Movimento.entity';
 import { AuthService } from './auth.service';
+import { map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MovimentiService {
