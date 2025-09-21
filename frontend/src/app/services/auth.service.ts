@@ -87,7 +87,7 @@ export class AuthService {
 }
 
  eseguiBonifico(dto: MovimentiDTO, mittenteId: string): Observable<any> {
-    return this.http.post(`/api/movimenti/bonifico/${mittenteId}`, dto);
+    return this.http.post(`/api/movimenti/bonifico`, dto);
   }
 
     ricarica(ricaricaDto: MovimentiDTO) {
