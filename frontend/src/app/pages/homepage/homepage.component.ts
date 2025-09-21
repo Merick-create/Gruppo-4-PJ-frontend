@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
+
   this.authSrv.getMovimenti().subscribe({
     next: (res: any) => {
 
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     }
   });
 }
+
 
 
   dettagli(id: string) {

@@ -24,7 +24,7 @@
     <h4>Ultimi Movimenti</h4>
     <div *ngFor="let m of movimenti" class="movimento-item">
       <div class="movimento-left">
-        <span class="movimento-data">{{ m.data | date:'dd/MM/yyyy' }}</span>
+        <span class="movimento-data">{{ m.dataCreazione| date:'dd/MM/yyyy' }}</span>
         <span class="movimento-desc">{{ m.descrizione }}</span>
       </div>
       <div class="movimento-right" [ngClass]="{'positivo': m.importo > 0, 'negativo': m.importo < 0}">

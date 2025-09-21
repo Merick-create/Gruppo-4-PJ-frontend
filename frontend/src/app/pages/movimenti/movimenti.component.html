@@ -53,9 +53,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let m of movimenti">
-            <td>{{ m.data | date:'dd/MM/yyyy' }}</td>
+            <td>{{ m.dataCreazione | date:'dd/MM/yyyy' }}</td>
             <td>{{ m.importo | currency:'EUR' }}</td>
-            <td>{{ m.CategoriaMovimentoid.NomeCategoria }}</td>
+            <!-- Qui usiamo il campo NomeCategoria popolato dal backend -->
+            <td>{{ m.NomeCategoria }}</td> 
           </tr>
         </tbody>
       </table>

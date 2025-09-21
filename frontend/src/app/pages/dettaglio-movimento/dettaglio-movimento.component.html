@@ -1,9 +1,8 @@
 <div class="card" *ngIf="movimento">
   <h2>Dettaglio Movimento</h2>
-  <p><strong>Data:</strong> {{ movimento.data }}</p>
+  <p><strong>Data:</strong> {{ movimento.dataCreazione }}</p>
   <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
   <p><strong>Importo:</strong> {{ movimento.importo | currency:'EUR' }}</p>
-  <p><strong>Tipo:</strong> {{ movimento.CategoriaMovimentoid.Tipologia }}</p>
-  <p><strong>Conto:</strong> {{ movimento.conto }}</p>
+  <p><strong>Conto:</strong> {{ movimento.ContoCorrenteId }}</p>
   <button (click)="goHome()">Torna alla Home</button>
 </div>
