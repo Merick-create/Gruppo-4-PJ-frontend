@@ -18,7 +18,12 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
     });
   }
 
-  
+  ricercaMov1(n: number): Observable<{ movimenti: Movimento[], saldo: number }> {
+    
+    return this.http.get<{ movimenti: Movimento[], saldo: number }>(
+      `${this.apiUrl}/ricerca?n=${n}`,
+    );
+  }
 
  ricercaMov2(n: number, categoria: string): Observable<Movimento[]> {
   return this.http.get<Movimento[]>(
