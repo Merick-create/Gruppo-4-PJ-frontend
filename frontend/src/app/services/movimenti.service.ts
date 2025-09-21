@@ -3,8 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Movimento } from '../entities/Movimento.entity';
 import { AuthService } from './auth.service';
-import { map, switchMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+
 
 @Injectable({ providedIn: 'root' })
 export class MovimentiService {
@@ -20,10 +19,11 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
   }
 
   ricercaMov1(n: number): Observable<{ movimenti: Movimento[], saldo: number }> {
-    return this.http.get<{ movimenti: Movimento[], saldo: number }>(
-      `${this.apiUrl}/ricerca?n=${n}`,
-    );
-  }
+  return this.http.get<{ movimenti: Movimento[], saldo: number }>(
+    `${this.apiUrl}/ricerca?n=${n}`,
+    { headers: this.getAuthHeaders() } // <-- aggiunto qui
+  );
+}
 
  ricercaMov2(n: number, categoria: string): Observable<Movimento[]> {
   return this.http.get<Movimento[]>(

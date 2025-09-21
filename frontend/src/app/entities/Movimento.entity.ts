@@ -1,12 +1,9 @@
 export interface Movimento {
-  _Id: string;
-  data: string;
+  ContoCorrenteId: string;
+  dataCreazione?: string; // o Date, se vuoi gestire direttamente Date
   importo: number;
-  conto: string;
-  CategoriaMovimentoid: { 
-    _id: string;
-    NomeCategoria: string;
-    Tipologia: string;
-  };
+  saldo?: number;
+  CategoriaMovimentoid?: string; // rimane l’ID se serve
+  NomeCategoria?: string;       // campo aggiunto dal backend
   descrizione: string;
 }

@@ -20,20 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.authSrv.getMovimenti().subscribe({
-      next: (res) => {
-        this.movimenti = res
-          .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
-          .slice(0, 5);
-
-        this.saldo = this.calcolaSaldo(res);
-        this.loadingSaldo = false;
-      },
-      error: () => {
-        this.errorSaldo = true;
-        this.loadingSaldo = false;
-      },
-    });
+    
   }
 
   dettagli(id: string) {
