@@ -15,6 +15,8 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 import { ProfiloComponent } from './pages/profilo/profilo.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
+import { authInterceptor } from './utils/auth.interceptor';
+import { logoutInterceptor } from './utils/logout.interceptor';
 
 
 @NgModule({
@@ -39,7 +41,7 @@ import { BonificoComponent } from './pages/bonifico/bonifico.component';
     NgbModule
   ],
   providers: [
-    provideHttpClient(withInterceptors([]))
+    provideHttpClient(withInterceptors([authInterceptor,logoutInterceptor]))
   ],
   bootstrap: [AppComponent]
 })

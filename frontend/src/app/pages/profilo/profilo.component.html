@@ -37,6 +37,16 @@
     </div>
     <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
+        <label for="oldPassword">Vecchia Password</label>
+        <input
+          type="password"
+          id="oldPassword"
+          formControlName="oldPassword"
+          placeholder="Inserisci Vecchia password"
+        />
+      </div>
+      
+      <div class="form-group">
         <label for="newPassword">Nuova Password</label>
         <input
           type="password"

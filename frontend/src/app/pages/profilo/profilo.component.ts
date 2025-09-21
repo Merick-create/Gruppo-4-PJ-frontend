@@ -40,8 +40,9 @@ export class ProfiloComponent implements OnInit {
       CognomeTitolare: ['', Validators.required],
       NomeTitolare: ['', Validators.required],
       DataApertura: [{ value: '', disabled: true }],
-      IBAN: [{ value: '', disabled: true }],        
-      newPassword: ['', [Validators.minLength(6)]]
+      IBAN: [{ value: '', disabled: true }],
+      oldPassword:['',Validators.required],        
+      newPassword: ['', [Validators.minLength(6),Validators.required]]
     });
   }
 
@@ -66,6 +67,7 @@ export class ProfiloComponent implements OnInit {
   }
 
   onSubmit() {
+
     if (this.passwordForm.get('newPassword')?.invalid) {
       this.error = 'Inserisci una password valida (minimo 6 caratteri).';
       return;
@@ -75,13 +77,17 @@ export class ProfiloComponent implements OnInit {
     this.error = '';
     this.message = '';
 
-    const payload = { newPassword: this.passwordForm.value.newPassword };
+    const payload = {
+      oldPassword: this.passwordForm.value.oldPassword,
+      newPassword: this.passwordForm.value.newPassword
+    };
 
-    this.http.put(`/api/contocorrente/${this.currentUser._id}/password`, payload).subscribe({
+    this.http.post(`/api/updatePassword`, payload).subscribe({
       next: () => {
         this.message = 'Password aggiornata con successo!';
         this.loading = false;
         this.passwordForm.get('newPassword')?.reset();
+        this.passwordForm.get('oldPassword')?.reset();
       },
       error: (err) => {
         this.error = err.error?.message || 'Errore durante il cambio password.';
