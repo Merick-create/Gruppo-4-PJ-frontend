@@ -44,7 +44,6 @@ export class RicercaMovimentiComponent {
     this.loading = true;
 
     if (tipoRicerca === '1') {
-      // Ultimi movimenti
       this.movimentiSrv.ricercaMov1(n).subscribe({
         next: res => {
           this.movimenti = res.movimenti;
@@ -58,7 +57,6 @@ export class RicercaMovimentiComponent {
       });
     } 
     else if (tipoRicerca === '2') {
-      // Filtra per categoria
       if (!categoria) {
         this.error = 'Inserisci una categoria per filtrare';
         this.loading = false;
@@ -77,7 +75,6 @@ export class RicercaMovimentiComponent {
       });
     } 
     else if (tipoRicerca === '3') {
-      // Filtra per range di date
       if (!dataInizio || !dataFine) {
         this.error = 'Inserisci entrambe le date per filtrare';
         this.loading = false;

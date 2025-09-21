@@ -20,7 +20,6 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
   ricercaMov1(n: number): Observable<{ movimenti: Movimento[], saldo: number }> {
     return this.http.get<{ movimenti: Movimento[], saldo: number }>(
       `${this.apiUrl}/ricerca?n=${n}`,
-      { headers: this.getAuthHeaders() }
     );
   }
 
@@ -32,8 +31,7 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
 
   ricercaMov3(n: number, dataInizio: string, dataFine: string): Observable<Movimento[]> {
     return this.http.get<Movimento[]>(
-      `${this.apiUrl}/date?n=${n}&dataInizio=${dataInizio}&dataFine=${dataFine}`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/date?n=${n}&dataInizio=${dataInizio}&dataFine=${dataFine}`
     );
   }
 
