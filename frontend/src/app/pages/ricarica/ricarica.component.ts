@@ -12,34 +12,41 @@ import { Categoria } from '../../entities/categorie';
   styleUrl: './ricarica.component.css'
 })
 export class RicaricaComponent implements OnInit {
-   ricaricaForm!: FormGroup;
+  ricaricaForm!: FormGroup;
   message: string = '';
   error: string = '';
   loading: boolean = false;
+  nomeCategoria: string = 'Ricarica';
 
   categoriaRicaricaId: string = '';
   contoCorrenteId: string = '';
 
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
+  private http = inject(HttpClient);
 
   ngOnInit(): void {
+    // inizializza il form
     this.ricaricaForm = this.fb.group({
       numeroTelefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       importo: ['', [Validators.required, Validators.min(1)]],
       operatore: ['', Validators.required]
     });
+
     this.authService.currentUser$.subscribe(user => {
-      if (user) this.contoCorrenteId = user.id; 
+      if (user) this.contoCorrenteId = user.id || user.id;
     });
-    this.authService.getCategorie().subscribe({
-      next: (res: Categoria[]) => {
-        const ricaricaCat = res.find(c => c.Nome.toLowerCase().includes('ricarica'));
-        if (ricaricaCat) this.categoriaRicaricaId = ricaricaCat.id;
-        else console.error('Categoria "Ricarica" non trovata!');
-      },
-      error: (err) => console.error('Errore caricamento categorie', err)
-    });
+
+    this.http.get<{ id: string }>(`/api/categorie/nome/`)
+      .subscribe({
+        next: (res) => {
+          this.categoriaRicaricaId = res.id;
+        },
+        error: (err) => {
+          console.error('Categoria "ricarica" non trovata', err);
+          this.error = 'Impossibile recuperare la categoria ricarica.';
+        }
+      });
   }
 
   onSubmit(): void {
@@ -52,6 +59,7 @@ export class RicaricaComponent implements OnInit {
     }
 
     if (!this.categoriaRicaricaId || !this.contoCorrenteId) {
+      console.log(this.categoriaRicaricaId, this.contoCorrenteId);
       this.error = 'Dati non disponibili per eseguire la ricarica.';
       return;
     }
@@ -62,7 +70,7 @@ export class RicaricaComponent implements OnInit {
       ContoCorrenteId: this.contoCorrenteId,
       numeroTelefono: this.ricaricaForm.value.numeroTelefono,
       operatore: this.ricaricaForm.value.operatore,
-       CategoriaMovimentoid: this.categoriaRicaricaId,
+      CategoriaMovimentoid: this.categoriaRicaricaId,
       importo: this.ricaricaForm.value.importo,
       descrizione: `Ricarica ${this.ricaricaForm.value.operatore} numero ${this.ricaricaForm.value.numeroTelefono}`,
     };

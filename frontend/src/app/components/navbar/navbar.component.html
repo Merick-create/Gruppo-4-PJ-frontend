@@ -1,13 +1,10 @@
 <nav class="navbar">
-  <!-- Logo a sinistra -->
   <div class="navbar-left">
     <a routerLink="/home" class="logo">
       <img src="assets/banca_con_sfondo-removebg-preview.png" alt="Logo" class="logo-img" />
       <span>Banca<span>ITS</span></span>
     </a>
   </div>
-
-  <!-- Menu centrale -->
   <div class="navbar-center">
     <ul class="nav-links">
       <li><a routerLink="/movimenti">Movimenti</a></li>
@@ -15,16 +12,12 @@
       <li><a routerLink="/ricarica">Ricarica Telefonica</a></li>
     </ul>
   </div>
-
-  <!-- Area utente a destra -->
   <div class="navbar-right" *ngIf="(currentUser$ | async) as currentUser">
     <div class="user-info"
          (mouseenter)="showMenu()"
          (mouseleave)="hideMenu()">
       <img src="assets/profilo_con_sfondo2-removebg-preview.png" alt="User" class="user-img" />
       <span class="username">{{ currentUser.fullname }}</span>
-
-      <!-- Dropdown -->
       <div class="dropdown" *ngIf="menuOpen">
         <a routerLink="/profilo">Profilo</a>
         <a (click)="logout()">Logout</a>
