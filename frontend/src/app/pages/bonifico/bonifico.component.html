@@ -1,37 +1,65 @@
-<div class="bonifico-container">
-  <div class="bonifico-card">
-    <div class="card-header">
-      <div class="card-deco-circle top-left"></div>
-      <div class="card-deco-circle bottom-right"></div>
-      <h2>Effettua Bonifico</h2>
+<div class="bonifico-page">
+  <div class="saldo-card">
+    <h3>Saldo Disponibile</h3>
+    <p class="saldo-amount">€ 12.345,67</p>
+    <p class="titolo-conto">Conto Corrente di Mario Rossi</p>
+  </div>
+  <div class="bonifico-container">
+    <div class="bonifico-card">
+      <div class="card-header">
+        <div class="card-deco-circle top-left"></div>
+        <div class="card-deco-circle bottom-right"></div>
+        <h2>Effettua Bonifico</h2>
+      </div>
+      <form *ngIf="!showConfirm" [formGroup]="bonificoForm" (ngSubmit)="onSubmit()">
+        <label for="ibanDestinatario">IBAN Destinatario</label>
+        <input type="text" id="ibanDestinatario" formControlName="ibanDestinatario" placeholder="DE12 5001 0517 0648 4898 90" />
+
+        <label for="importo">Importo (€)</label>
+        <input type="number" id="importo" formControlName="importo" placeholder="Inserisci importo" />
+
+        <label for="descrizione">Descrizione</label>
+        <input type="text" id="descrizione" formControlName="descrizione" placeholder="Causale bonifico (opzionale)" />
+
+        <button type="submit" [disabled]="loading || bonificoForm.invalid">
+          {{ loading ? 'Invio...' : 'Prosegui' }}
+        </button>
+      </form>
+
+      <div *ngIf="showConfirm" class="bonifico-summary">
+        <h3>Riepilogo Bonifico</h3>
+        <p><strong>IBAN Destinatario:</strong> {{ bonificoForm.value.ibanDestinatario }}</p>
+        <p><strong>Importo:</strong> € {{ bonificoForm.value.importo }}</p>
+        <p><strong>Descrizione:</strong> {{ bonificoForm.value.descrizione || 'Nessuna' }}</p>
+
+        <div class="summary-buttons">
+          <button class="btn btn-secondary" type="button" (click)="cancelConfirm()">Annulla</button>
+          <button class="btn btn-primary" type="button" (click)="confirmBonifico()" [disabled]="loading">
+            {{ loading ? 'Invio...' : 'Conferma Bonifico' }}
+          </button>
+        </div>
+      </div>
     </div>
-
-    <div *ngIf="message" class="success">{{ message }}</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
-
-    <form [formGroup]="bonificoForm" (ngSubmit)="onSubmit()">
-
-      <label for="ibanDestinatario">IBAN Destinatario</label>
-      <input type="text" id="ibanDestinatario" formControlName="ibanDestinatario" placeholder="DE12 5001 0517 0648 4898 90" />
-      <div *ngIf="f['ibanDestinatario'].invalid && (f['ibanDestinatario'].touched || f['ibanDestinatario'].dirty)" class="error">
-        IBAN obbligatorio (15-34 caratteri)
-      </div>
-
-      <label for="importo">Importo (€)</label>
-      <input type="number" id="importo" formControlName="importo" placeholder="Inserisci importo" />
-      <div *ngIf="f['importo'].invalid && (f['importo'].touched || f['importo'].dirty)" class="error">
-        Inserisci un importo valido (>0)
-      </div>
-
-      <label for="descrizione">Descrizione</label>
-      <input type="text" id="descrizione" formControlName="descrizione" placeholder="Causale bonifico (opzionale)" />
-      <div *ngIf="f['descrizione'].invalid && (f['descrizione'].touched || f['descrizione'].dirty)" class="error">
-        La descrizione è obbligatoria
-      </div>
-
-      <button type="submit" [disabled]="loading || bonificoForm.invalid">
-        {{ loading ? 'Invio...' : 'Esegui Bonifico' }}
-      </button>
-    </form>
+  </div>
+  <div class="recent-bonifici">
+    <h3>Ultimi Bonifici</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>IBAN Destinatario</th>
+          <th>Importo</th>
+          <th>Descrizione</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of ultimiBonifici">
+        <td>{{ m.dataCreazione | date:'dd/MM/yyyy' }}</td>
+        <td>{{ m.importo | currency:'EUR' }}</td>
+        <td>{{ m.descrizione }}</td>
+        <td>{{ m.ContoCorrenteId }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

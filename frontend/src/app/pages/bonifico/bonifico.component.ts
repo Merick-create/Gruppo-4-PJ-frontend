@@ -6,6 +6,8 @@ import { MovimentiDTO } from '../../entities/MovimentiDTO';
 import { Observable } from 'rxjs';
 import { User } from '../../entities/user.entity';
 import { HttpClient } from '@angular/common/http';
+import { Movimento } from '../../entities/Movimento.entity';
+import { MovimentiService } from '../../services/movimenti.service';
 
 
 @Component({
@@ -19,6 +21,9 @@ export class BonificoComponent implements OnInit {
   loading: boolean = false;
   message: string = '';
   error: string = '';
+  showConfirm: boolean = false;
+  ultimiBonifici: Movimento[] = [];
+  
 
   currentUser$!: Observable<User | null>;
   currentUserId: string = '';
@@ -27,6 +32,7 @@ export class BonificoComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private http = inject(HttpClient);
+  private movimentiSrv = inject(MovimentiService); 
 
   ngOnInit(): void {
     this.bonificoForm = this.fb.group({
@@ -35,13 +41,13 @@ export class BonificoComponent implements OnInit {
       descrizione: ['', Validators.required]
     });
 
-    // Recupero utente loggato
     this.currentUser$ = this.authService.currentUser$;
     this.authService.currentUser$.subscribe(user => {
       if (user) this.currentUserId = user.id;
+      this.loadUltimiBonifici();
     });
 
-    // Recupero ID categoria "Bonifico"
+
     this.http.get<{ id: string }>(`/api/categorie/nome/Bonifico`).subscribe({
       next: (res) => this.categoriaBonificoId = res.id,
       error: (err) => {
@@ -50,10 +56,7 @@ export class BonificoComponent implements OnInit {
       }
     });
   }
-
   onSubmit(): void {
-    console.log(this.bonificoForm.value);
-    console.log(this.bonificoForm.valid);
     this.message = '';
     this.error = '';
 
@@ -61,7 +64,9 @@ export class BonificoComponent implements OnInit {
       this.error = 'Compila correttamente tutti i campi.';
       return;
     }
-
+    this.showConfirm = true;
+  }
+  confirmBonifico(): void {
     if (!this.currentUserId || !this.categoriaBonificoId) {
       this.error = 'Dati utente o categoria non disponibili.';
       return;
@@ -81,10 +86,29 @@ export class BonificoComponent implements OnInit {
         this.message = res.message || 'Bonifico eseguito con successo!';
         this.loading = false;
         this.bonificoForm.reset();
+        this.showConfirm = false;
+        this.loadUltimiBonifici();
       },
       error: (err) => {
         this.error = err.error?.message || 'Errore durante il bonifico.';
         this.loading = false;
+      }
+    });
+  }
+
+  cancelConfirm(): void {
+    this.showConfirm = false;
+  }
+  private loadUltimiBonifici(): void {
+    const n = 5; // numero di bonifici da mostrare
+    const categoriaBonifico = 'Bonifico';
+
+    this.movimentiSrv.ricercaMov2(n, categoriaBonifico).subscribe({
+      next: res => {
+        this.ultimiBonifici = res;
+      },
+      error: err => {
+        console.error('Errore caricamento ultimi bonifici', err);
       }
     });
   }
