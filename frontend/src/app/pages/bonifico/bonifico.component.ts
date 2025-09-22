@@ -100,7 +100,7 @@ export class BonificoComponent implements OnInit {
     this.showConfirm = false;
   }
   private loadUltimiBonifici(): void {
-    const n = 5; // numero di bonifici da mostrare
+    const n = 5; 
     const categoriaBonifico = 'Bonifico';
 
     this.movimentiSrv.ricercaMov2(n, categoriaBonifico).subscribe({
