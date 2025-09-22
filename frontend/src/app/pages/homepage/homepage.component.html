@@ -21,15 +21,15 @@
   </div>
 
   <div class="movimenti-container">
-    <h4>Ultimi Movimenti</h4>
-    <div *ngFor="let m of movimenti" class="movimento-item">
-      <div class="movimento-left">
-        <span class="movimento-data">{{ m.dataCreazione| date:'dd/MM/yyyy' }}</span>
-        <span class="movimento-desc">{{ m.descrizione }}</span>
-      </div>
-      <div class="movimento-right" [ngClass]="{'positivo': m.importo > 0, 'negativo': m.importo < 0}">
-        {{ m.importo | currency:'EUR' }}
-      </div>
+  <h4 class="movimenti-title">Ultimi Movimenti</h4>
+
+  <div *ngFor="let m of movimenti" class="movimento-card">
+    <div class="movimento-info">
+      <div class="movimento-date">{{ m.dataCreazione | date:'dd/MM/yyyy' }}</div>
+      <div class="movimento-desc">{{ m.descrizione }}</div>
+    </div>
+    <div class="movimento-importo" [ngClass]="{'positivo': m.importo > 0, 'negativo': m.importo < 0}">
+      {{ m.importo | currency:'EUR' }}
     </div>
   </div>
 </div>

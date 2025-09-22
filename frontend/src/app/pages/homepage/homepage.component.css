@@ -90,3 +90,70 @@
   margin: 0 auto;
   padding: 20px;
 }
+
+.movimenti-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.movimenti-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.movimento-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.movimento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.movimento-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.movimento-date {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.movimento-desc {
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+}
+
+.movimento-importo {
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 100px;
+  text-align: right;
+}
+
+.movimento-importo.positivo {
+  color: #2e7d32; 
+}
+
+.movimento-importo.negativo {
+  color: #c62828; 
+}

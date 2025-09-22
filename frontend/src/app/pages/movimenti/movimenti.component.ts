@@ -29,6 +29,8 @@ export class RicercaMovimentiComponent {
       dataInizio: [''],
       dataFine: ['']
     });
+
+      this.cerca();
   }
 
   cerca(): void {
