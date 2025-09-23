@@ -22,21 +22,18 @@ export class RicaricaComponent implements OnInit {
 
   readonly nomeCategoria: string = 'Ricarica';
   contoCorrenteId: string = '';
-  categoriaId: string = ''; // Salva qui l'ID della categoria
+  categoriaId: string = '';
 
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
   ngOnInit(): void {
-    // Inizializza il form
     this.ricaricaForm = this.fb.group({
       numeroTelefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       importo: ['', [Validators.required, Validators.min(1)]],
       operatore: ['', Validators.required]
     });
-
-    // Recupera dati utente
     this.authService.currentUser$.subscribe(user => {
       if (user) this.contoCorrenteId = user.id;
     });

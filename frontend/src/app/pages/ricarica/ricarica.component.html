@@ -1,11 +1,8 @@
 <div class="ricarica-container">
   <h2>Ricarica Telefonica</h2>
-
-  <!-- messaggi -->
   <div *ngIf="message" class="alert success">{{ message }}</div>
   <div *ngIf="error" class="alert error">{{ error }}</div>
 
-  <!-- Form ricarica -->
   <form *ngIf="!showConfirm" [formGroup]="ricaricaForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="numeroTelefono">Numero di telefono</label>
@@ -37,7 +34,6 @@
     <button type="submit" [disabled]="loading">{{ loading ? 'In corso...' : 'Ricarica' }}</button>
   </form>
 
-  <!-- Riepilogo ricarica -->
   <div *ngIf="showConfirm" class="riepilogo-card">
     <h3>Conferma Ricarica</h3>
     <p><strong>Numero:</strong> {{ ricaricaForm.value.numeroTelefono }}</p>
