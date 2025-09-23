@@ -1,36 +1,26 @@
 <div class="ricarica-container">
   <h2>Ricarica Telefonica</h2>
 
-  <!-- Messaggi di successo / errore -->
+  <!-- messaggi -->
   <div *ngIf="message" class="alert success">{{ message }}</div>
   <div *ngIf="error" class="alert error">{{ error }}</div>
 
-  <form [formGroup]="ricaricaForm" (ngSubmit)="onSubmit()">
+  <!-- Form ricarica -->
+  <form *ngIf="!showConfirm" [formGroup]="ricaricaForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="numeroTelefono">Numero di telefono</label>
-      <input
-        type="text"
-        id="numeroTelefono"
-        formControlName="numeroTelefono"
-        placeholder="Inserisci numero di telefono"
-      />
-      <small *ngIf="ricaricaForm.get('numeroTelefono')?.invalid && ricaricaForm.get('numeroTelefono')?.touched">
-        Inserisci un numero valido di 10 cifre.
-      </small>
+      <input type="text" id="numeroTelefono" formControlName="numeroTelefono" placeholder="Inserisci numero di telefono" />
     </div>
 
     <div class="form-group">
       <label for="importo">Importo (€)</label>
-       <select id="importo" formControlName="importo">
+      <select id="importo" formControlName="importo">
         <option value="">Seleziona importo</option>
         <option value="5">5 €</option>
         <option value="10">10 €</option>
         <option value="20">20 €</option>
         <option value="30">30 €</option>
-  </select>
-      <small *ngIf="ricaricaForm.get('importo')?.invalid && ricaricaForm.get('importo')?.touched">
-        Inserisci un importo valido maggiore di 0.
-      </small>
+      </select>
     </div>
 
     <div class="form-group">
@@ -42,13 +32,44 @@
         <option value="WindTre">WindTre</option>
         <option value="Iliad">Iliad</option>
       </select>
-      <small *ngIf="ricaricaForm.get('operatore')?.invalid && ricaricaForm.get('operatore')?.touched">
-        Seleziona un operatore.
-      </small>
     </div>
 
-    <button type="submit" [disabled]="loading">
-      {{ loading ? 'In corso...' : 'Ricarica' }}
-    </button>
+    <button type="submit" [disabled]="loading">{{ loading ? 'In corso...' : 'Ricarica' }}</button>
   </form>
+
+  <!-- Riepilogo ricarica -->
+  <div *ngIf="showConfirm" class="riepilogo-card">
+    <h3>Conferma Ricarica</h3>
+    <p><strong>Numero:</strong> {{ ricaricaForm.value.numeroTelefono }}</p>
+    <p><strong>Operatore:</strong> {{ ricaricaForm.value.operatore }}</p>
+    <p><strong>Importo:</strong> {{ ricaricaForm.value.importo }} €</p>
+
+    <div class="riepilogo-buttons">
+      <button (click)="confirmRicarica()" [disabled]="loading" class="btn-confirm">
+        {{ loading ? 'Conferma...' : 'Conferma' }}
+      </button>
+      <button (click)="cancelConfirm()" class="btn-cancel">Annulla</button>
+    </div>
+  </div>
+</div>
+<div class="ultime-ricariche-container">
+  <h3>Ultime Ricariche</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Numero</th>
+        <th>Operatore</th>
+        <th>Importo</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of ultimeRicariche">
+        <td>{{ r.numeroTelefono }}</td>
+        <td>{{ r.operatore }}</td>
+        <td>{{ r.importo | currency:'EUR' }}</td>
+        <td>{{ r.descrizione }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -1,5 +1,5 @@
 .ricarica-container {
-  max-width: 450px;
+  max-width: 500px;
   margin: 40px auto;
   padding: 30px;
   background-color: #f8f9fa;
@@ -12,7 +12,7 @@
 .ricarica-container h2 {
   text-align: center;
   margin-bottom: 25px;
-  color:  #ff7f50;
+  color: #ff7f50;
   font-weight: 600;
 }
 
@@ -39,8 +39,8 @@ select {
 input:focus,
 select:focus {
   outline: none;
-  border-color:  #ff7f50;
-  box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+  border-color: #ff7f50;
+  box-shadow: 0 0 5px rgba(255, 127, 80, 0.4);
 }
 
 small {
@@ -51,11 +51,11 @@ small {
 button {
   width: 100%;
   padding: 12px;
-  background-color:  #ff7f50;
+  background-color: #ff7f50;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -67,9 +67,42 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #0b5ed7;
+  background-color: #e86e43;
 }
 
+/* pulsanti riepilogo */
+.riepilogo-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.riepilogo-buttons .btn-confirm,
+.riepilogo-buttons .btn-cancel {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.btn-confirm {
+  background-color: #28a745;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+.btn-cancel {
+  background-color: #dc3545;
+}
+
+.btn-cancel:hover {
+  background-color: #bb2d3b;
+}
+
+/* messaggi */
 .alert {
   padding: 12px;
   border-radius: 6px;
@@ -88,4 +121,86 @@ button:hover:not(:disabled) {
   background-color: #f8d7da;
   color: #842029;
   border: 1px solid #f5c2c7;
+}
+
+/* sezione ultime ricariche */
+.ultime-ricariche {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #f4f6f8;
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ultime-ricariche h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #4a90e2;
+  font-weight: 500;
+}
+
+.ultime-ricariche table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ultime-ricariche th,
+.ultime-ricariche td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.ultime-ricariche th {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 500;
+}
+
+.ultime-ricariche tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Container ultime ricariche in stile tabella bonifici */
+.ultime-ricariche-container{
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #f4f6f8;
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.rultime-ricariche-container h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #4a90e2;
+  font-weight: 500;
+}
+
+.ultime-ricariche-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ultime-ricariche-container th,
+.ultime-ricariche-container td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.ultime-ricariche-container th {
+  background-color: #ff7f50;
+  color: white;
+  font-weight: 500;
+}
+
+.ultime-ricariche-container tr:hover {
+  background-color: #f1f1f1;
 }

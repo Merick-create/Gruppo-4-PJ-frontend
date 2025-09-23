@@ -12,80 +12,116 @@ import { Categoria } from '../../entities/categorie';
   styleUrl: './ricarica.component.css'
 })
 export class RicaricaComponent implements OnInit {
-  ricaricaForm!: FormGroup;
+ ricaricaForm!: FormGroup;
   message: string = '';
   error: string = '';
   loading: boolean = false;
 
-  nomeCategoria: string = 'Ricarica';
-  categoriaRicaricaId: string = '';
+  showConfirm: boolean = false;
+  ultimeRicariche: MovimentiDTO[] = [];
+
+  readonly nomeCategoria: string = 'Ricarica';
   contoCorrenteId: string = '';
+  categoriaId: string = ''; // Salva qui l'ID della categoria
 
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
   ngOnInit(): void {
-    // 1. Inizializzo il form
+    // Inizializza il form
     this.ricaricaForm = this.fb.group({
       numeroTelefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       importo: ['', [Validators.required, Validators.min(1)]],
       operatore: ['', Validators.required]
     });
 
-    // 2. Recupero l'ID del conto corrente dell'utente
+    // Recupera dati utente
     this.authService.currentUser$.subscribe(user => {
       if (user) this.contoCorrenteId = user.id;
     });
 
-    // 3. Recupero l'ID della categoria "Ricarica"
     this.http.get<{ id: string }>(`/api/categorie/nome/${this.nomeCategoria}`)
-      .subscribe({
-        next: (res) => this.categoriaRicaricaId = res.id,
-        error: (err) => {
-          console.error('Categoria "Ricarica" non trovata', err);
-          this.error = 'Impossibile recuperare la categoria ricarica.';
+    .subscribe({
+      next: (res) => {
+        if (res && res.id) {
+          this.categoriaId = res.id;
+        } else {
+          console.warn('Categoria "Ricarica" non trovata');
         }
-      });
-  }
+      },
+      error: (err) => console.error('Errore recupero categoria:', err)
+    });
+      this.caricaUltimeRicariche();
+    }
 
-  // 4. Al click del bottone "Ricarica"
   onSubmit(): void {
     this.message = '';
     this.error = '';
 
-    // Controlli sul form
     if (this.ricaricaForm.invalid) {
       this.error = 'Compila tutti i campi correttamente.';
       return;
     }
 
-    if (!this.categoriaRicaricaId || !this.contoCorrenteId) {
+    this.showConfirm = true;
+  }
+
+  confirmRicarica(): void {
+    if (!this.contoCorrenteId || !this.categoriaId) {
       this.error = 'Dati non disponibili per eseguire la ricarica.';
       return;
     }
 
     this.loading = true;
 
-    // 5. Costruisco il DTO da inviare al backend
     const ricaricaDto: MovimentiDTO = {
       ContoCorrenteId: this.contoCorrenteId,
       numeroTelefono: this.ricaricaForm.value.numeroTelefono,
       operatore: this.ricaricaForm.value.operatore,
-      CategoriaMovimentoid: this.categoriaRicaricaId,
+      CategoriaMovimentoid: this.categoriaId, // ✅ Usa l'ID recuperato
       importo: this.ricaricaForm.value.importo,
       descrizione: `Ricarica ${this.ricaricaForm.value.operatore} numero ${this.ricaricaForm.value.numeroTelefono}`,
     };
+
     this.http.post<{ message: string }>('/api/movimenti/ricarica', ricaricaDto)
       .subscribe({
         next: (res) => {
           this.message = res.message || 'Ricarica eseguita con successo!';
           this.loading = false;
           this.ricaricaForm.reset();
+          this.showConfirm = false;
+          this.caricaUltimeRicariche();
         },
         error: (err) => {
           this.error = err.error?.message || 'Errore durante la ricarica.';
           this.loading = false;
+        }
+      });
+  }
+
+  cancelConfirm(): void {
+    this.showConfirm = false;
+  }
+
+  private caricaUltimeRicariche(): void {
+    this.http.get<MovimentiDTO[]>(`/api/movimenti/categoria?n=5&categoria=${this.nomeCategoria}`)
+      .subscribe({
+        next: (res) => {
+          this.ultimeRicariche = res
+            .filter(m => m.descrizione?.includes('Ricarica'))
+            .slice(0, 5)
+            .map(m => {
+              const match = m.descrizione?.match(/Ricarica (\w+) numero (\d{10})/);
+              return {
+                ...m,
+                operatore: match ? match[1] : '',
+                numeroTelefono: match ? match[2] : ''
+              };
+            });
+        },
+        error: (err) => {
+          console.error('Errore nel recupero ultime ricariche', err);
         }
       });
   }
