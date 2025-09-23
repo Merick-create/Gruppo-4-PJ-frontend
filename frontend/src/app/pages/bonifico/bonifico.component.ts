@@ -17,45 +17,67 @@ import { MovimentiService } from '../../services/movimenti.service';
   styleUrl: './bonifico.component.css'
 })
 export class BonificoComponent implements OnInit {
-  bonificoForm!: FormGroup;
-  loading: boolean = false;
-  message: string = '';
-  error: string = '';
-  showConfirm: boolean = false;
-  ultimiBonifici: Movimento[] = [];
-  
+ bonificoForm!: FormGroup;
+  loading = false;
+  message = '';
+  error = '';
+  showConfirm = false;
 
-  currentUser$!: Observable<User | null>;
-  currentUserId: string = '';
-  categoriaBonificoId: string = '';
+  ultimiBonifici: Movimento[] = [];
+  saldo = 0;
+  utente: User | null = null;
+
+  categoriaBonificoId = '';
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private http = inject(HttpClient);
-  private movimentiSrv = inject(MovimentiService); 
+  private movimentiSrv = inject(MovimentiService);
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadUtente();
+    this.loadCategoriaBonifico();
+    this.loadUltimiBonifici();
+  }
+
+  private initForm(): void {
     this.bonificoForm = this.fb.group({
       ibanDestinatario: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(34)]],
       importo: [null, [Validators.required, Validators.min(0.01)]],
       descrizione: ['', Validators.required]
     });
+  }
 
-    this.currentUser$ = this.authService.currentUser$;
+  private loadUtente(): void {
     this.authService.currentUser$.subscribe(user => {
-      if (user) this.currentUserId = user.id;
-      this.loadUltimiBonifici();
+      if (user) {
+        this.utente = user;
+        this.loadSaldo(user.id);
+      }
     });
+  }
 
+  private loadSaldo(contoCorrenteId: string): void {
+    this.http.get<{ saldo: number; nomeCompleto: string }>(`/api/saldo/${contoCorrenteId}`)
+      .subscribe({
+        next: res => {
+          this.saldo = res.saldo; 
+        },
+        error: err => console.error('Errore caricamento saldo', err)
+      });
+  }
 
+  private loadCategoriaBonifico(): void {
     this.http.get<{ id: string }>(`/api/categorie/nome/Bonifico`).subscribe({
-      next: (res) => this.categoriaBonificoId = res.id,
-      error: (err) => {
+      next: res => this.categoriaBonificoId = res.id,
+      error: err => {
         console.error('Categoria "Bonifico" non trovata', err);
         this.error = 'Impossibile recuperare la categoria bonifico.';
       }
     });
   }
+
   onSubmit(): void {
     this.message = '';
     this.error = '';
@@ -64,10 +86,12 @@ export class BonificoComponent implements OnInit {
       this.error = 'Compila correttamente tutti i campi.';
       return;
     }
+
     this.showConfirm = true;
   }
+
   confirmBonifico(): void {
-    if (!this.currentUserId || !this.categoriaBonificoId) {
+    if (!this.utente?.id || !this.categoriaBonificoId) {
       this.error = 'Dati utente o categoria non disponibili.';
       return;
     }
@@ -81,15 +105,16 @@ export class BonificoComponent implements OnInit {
       CategoriaMovimentoid: this.categoriaBonificoId
     };
 
-    this.authService.eseguiBonifico(payload, this.currentUserId).subscribe({
-      next: (res: any) => {
+    this.authService.eseguiBonifico(payload, this.utente.id).subscribe({
+      next: res => {
         this.message = res.message || 'Bonifico eseguito con successo!';
         this.loading = false;
         this.bonificoForm.reset();
         this.showConfirm = false;
         this.loadUltimiBonifici();
+        this.loadSaldo(this.utente!.id); 
       },
-      error: (err) => {
+      error: err => {
         this.error = err.error?.message || 'Errore durante il bonifico.';
         this.loading = false;
       }
@@ -99,17 +124,14 @@ export class BonificoComponent implements OnInit {
   cancelConfirm(): void {
     this.showConfirm = false;
   }
-  private loadUltimiBonifici(): void {
-    const n = 5; 
-    const categoriaBonifico = 'Bonifico';
 
-    this.movimentiSrv.ricercaMov2(n, categoriaBonifico).subscribe({
-      next: res => {
-        this.ultimiBonifici = res;
-      },
-      error: err => {
-        console.error('Errore caricamento ultimi bonifici', err);
-      }
+  private loadUltimiBonifici(): void {
+    const n = 5;
+    const categoria = 'Bonifico';
+
+    this.movimentiSrv.ricercaMov2(n, categoria).subscribe({
+      next: res => this.ultimiBonifici = res,
+      error: err => console.error('Errore caricamento ultimi bonifici', err)
     });
   }
 

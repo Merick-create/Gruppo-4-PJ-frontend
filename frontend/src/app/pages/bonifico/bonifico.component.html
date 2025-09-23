@@ -1,9 +1,9 @@
 <div class="bonifico-page">
   <div class="saldo-card">
-    <h3>Saldo Disponibile</h3>
-    <p class="saldo-amount">€ 12.345,67</p>
-    <p class="titolo-conto">Conto Corrente di Mario Rossi</p>
-  </div>
+  <h3>Saldo Disponibile</h3>
+  <p class="saldo-amount">€ {{ saldo | number:'1.2-2' }}</p>
+  <p class="titolo-conto">{{ utente?.nomeTitolare }} {{ utente?.cognomeTitolare }}</p>
+</div>
   <div class="bonifico-container">
     <div class="bonifico-card">
       <div class="card-header">
