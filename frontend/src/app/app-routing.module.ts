@@ -8,6 +8,7 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component';
 import { ProfiloComponent } from './pages/profilo/profilo.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
+import { ConfermaEmailComponent } from './pages/conferma-email/conferma-email.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,10 @@ const routes: Routes = [
     path: 'bonifico',
     component: BonificoComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'conferma',
+    component: ConfermaEmailComponent,
   },
   {
     path: '**',
