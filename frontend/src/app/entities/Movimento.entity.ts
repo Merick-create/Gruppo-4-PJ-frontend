@@ -1,10 +1,11 @@
 import { Categoria } from "./categorie";
 
 export interface Movimento {
+  _id?: string;
   ContoCorrenteId: string;
-  dataCreazione?: string; // o Date, se vuoi gestire direttamente Date
+  dataCreazione?: string; 
   importo: number;
   saldo?: number;
-  CategoriaMovimentoid?: Categoria; // rimane l’ID se serve
+  CategoriaMovimentoid?: Categoria; 
   descrizione: string;
 }

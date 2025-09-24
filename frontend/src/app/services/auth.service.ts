@@ -57,11 +57,7 @@ export class AuthService {
   }
 
   getMovimentoById(id: string): Observable<Movimento> {
-    const token = this.jwtSrv.getToken();
-    const headers = new HttpHeaders({
-      Authorization: token ? `Bearer ${token}` : ''
-    });
-    return this.http.get<Movimento>(`/api/movimenti/${id}`, { headers });
+    return this.http.get<Movimento>(`/api/movimenti/${id}`);
 }
 
   register(user: {cognomeTitolare: string;nomeTitolare: string; iban:string; username: string; password:string;}) {

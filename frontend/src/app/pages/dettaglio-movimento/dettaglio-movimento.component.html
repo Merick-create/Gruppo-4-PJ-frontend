@@ -1,8 +1,39 @@
-<div class="card" *ngIf="movimento">
-  <h2>Dettaglio Movimento</h2>
-  <p><strong>Data:</strong> {{ movimento.dataCreazione }}</p>
-  <p><strong>Descrizione:</strong> {{ movimento.descrizione }}</p>
-  <p><strong>Importo:</strong> {{ movimento.importo | currency:'EUR' }}</p>
-  <p><strong>Conto:</strong> {{ movimento.ContoCorrenteId }}</p>
-  <button (click)="goHome()">Torna alla Home</button>
+<div class="movimento-dettaglio" *ngIf="movimento">
+  <div class="decorazione decorazione-top"></div>
+  <div class="decorazione decorazione-bottom"></div>
+
+  <div class="card">
+    <h2><i class="fas fa-receipt"></i> Dettaglio Movimento</h2>
+
+    <div class="form-row">
+      <label><i class="fas fa-calendar-alt"></i> Data Operazione</label>
+      <p>{{ movimento.dataCreazione | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+
+    <div class="form-row">
+      <label><i class="fas fa-align-left"></i> Descrizione</label>
+      <p>{{ movimento.descrizione }}</p>
+    </div>
+
+    <div class="form-row">
+      <label>
+        <i class="fas" [ngClass]="{'fa-arrow-up': movimento.importo > 0, 'fa-arrow-down': movimento.importo < 0}"></i>
+        Importo
+      </label>
+      <p [ngClass]="{'positivo': movimento.importo > 0, 'negativo': movimento.importo < 0}">
+        {{ movimento.importo | currency:'EUR' }}
+      </p>
+    </div>
+
+    <div class="form-row">
+      <label><i class="fas fa-university"></i> Saldo Corrente</label>
+      <p>{{ movimento.saldo}}</p>
+    </div>
+
+    <div class="actions">
+      <button (click)="goHome()">
+        <i class="fas fa-home"></i> Torna alla Home
+      </button>
+    </div>
+  </div>
 </div>

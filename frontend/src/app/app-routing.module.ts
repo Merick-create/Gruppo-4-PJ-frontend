@@ -9,6 +9,7 @@ import { RicercaMovimentiComponent } from './pages/movimenti/movimenti.component
 import { ProfiloComponent } from './pages/profilo/profilo.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { ConfermaEmailComponent } from './pages/conferma-email/conferma-email.component';
+import { DettaglioMovimentoComponent } from './pages/dettaglio-movimento/dettaglio-movimento.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,11 @@ const routes: Routes = [
     path: 'movimenti',
     component: RicercaMovimentiComponent,
     canActivate: [authGuard]
+  },
+  {
+    path:'movimenti/:id',
+    component:DettaglioMovimentoComponent
+    ,canActivate:[authGuard]
   },
   {
     path: 'profilo',

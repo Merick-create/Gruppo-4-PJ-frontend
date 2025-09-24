@@ -24,9 +24,11 @@ export class HomeComponent implements OnInit {
   this.authSrv.getMovimenti().subscribe({
     next: (res: any) => {
 
+
       this.movimenti = Array.isArray(res.movimenti) ? res.movimenti : [];
       this.saldo = res.saldo ?? 0;
       this.loadingSaldo = false;
+      console.log(this.movimenti);
     },
     error: () => {
       this.errorSaldo = true;
@@ -34,14 +36,11 @@ export class HomeComponent implements OnInit {
     }
   });
 }
-
-
-
-  dettagli(id: string) {
-    this.router.navigate(['/dettaglio', id]);
-  }
-
   private calcolaSaldo(movs: Movimento[]): number {
     return movs.reduce((tot, m) => tot + m.importo, 0);
+  }
+
+  vaiADettaglio(id: string) {
+    this.router.navigate(['/movimenti', id]);
   }
 }
