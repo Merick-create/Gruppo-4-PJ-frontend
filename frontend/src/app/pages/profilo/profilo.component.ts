@@ -66,7 +66,6 @@ export class ProfiloComponent implements OnInit {
 
         // carico i dati nel form
         this.passwordForm.patchValue({
-          Email: res.Email,
           CognomeTitolare: res.CognomeTitolare,
           NomeTitolare: res.NomeTitolare,
           DataApertura: res.DataApertura,
