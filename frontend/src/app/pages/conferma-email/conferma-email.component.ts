@@ -21,15 +21,12 @@ export class ConfermaEmailComponent {
     });
   }
 
-  onSubmit() {
-    if (this.confirmForm.invalid) return;
-
-    this.loading = true;
+  conferma() {
     this.successMessage = '';
     this.errorMessage = '';
-    const username = this.confirmForm.controls.username.value!;
+    this.loading = true;
 
-    this.userService.confirmEmail(username).subscribe({
+    this.userService.confirmEmail(this.email).subscribe({
       next: (res) => {
         this.successMessage = res;
         this.loading = false;

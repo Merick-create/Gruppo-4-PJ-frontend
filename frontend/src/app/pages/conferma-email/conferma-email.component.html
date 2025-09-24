@@ -1,20 +1,17 @@
-<div class="confirm-email-container">
+<div class="container">
   <h2>Conferma Email</h2>
 
-  <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="username">Email:</label>
-      <input id="username" type="email" formControlName="username" />
-      <div *ngIf="confirmForm.controls.username.invalid && confirmForm.controls.username.touched" class="error">
-        Inserisci una email valida.
-      </div>
-    </div>
+  <p>Email da confermare: <strong>{{ email }}</strong></p>
 
-    <button type="submit" [disabled]="loading || confirmForm.invalid">
-      {{ loading ? 'Conferma...' : 'Conferma Email' }}
-    </button>
-  </form>
+  <button (click)="conferma()" [disabled]="loading">
+    {{ loading ? 'Conferma in corso...' : 'Conferma Email' }}
+  </button>
 
-  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success">
+    ✅ {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    ❌ {{ errorMessage }}
+  </div>
 </div>
