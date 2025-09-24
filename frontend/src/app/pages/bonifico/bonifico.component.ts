@@ -40,6 +40,7 @@
       this.loadCategoriaBonifico();
       this.loadUltimiBonifici();
       this.loadSaldo(this.utente!.Iban);
+      console.log(this.utente?.Iban);
     }
 
     private initForm(): void {
@@ -54,21 +55,19 @@
       this.authService.currentUser$.subscribe(user => {
         if (user) {
           this.utente = user;
-          this.loadSaldo(user.id);
+          this.loadSaldo(user.Iban);
         }
       });
     }
-
     private loadSaldo(iban: string): void {
-      this.http.get<{ saldo: number; nomeCompleto: string }>(`/api/movimenti/saldo/${iban}`)
-        .subscribe({
-          next: res => {
-            console.log(iban);
-            this.saldo = res.saldo; 
-          },
-          error: err => console.error('Errore caricamento saldo', err)
-        });
-    }
+      this.movimentiSrv.getSaldo(iban).subscribe({
+      next: res => {
+        this.saldo = res.saldo;
+        console.log('Saldo caricato:', res);
+      },
+      error: err => console.error('Errore caricamento saldo', err)
+      });
+  }
 
     private loadCategoriaBonifico(): void {
       this.http.get<{ id: string }>(`/api/categorie/nome/Bonifico`).subscribe({
