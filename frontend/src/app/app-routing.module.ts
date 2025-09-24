@@ -31,19 +31,23 @@ const routes: Routes = [
   },
   { 
     path: 'ricarica', 
-    component: RicaricaComponent 
+    component: RicaricaComponent,
+    canActivate: [authGuard] 
   },
   {
     path: 'movimenti',
-    component: RicercaMovimentiComponent
+    component: RicercaMovimentiComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'profilo',
-    component: ProfiloComponent
+    component: ProfiloComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'bonifico',
-    component: BonificoComponent
+    component: BonificoComponent,
+    canActivate: [authGuard]
   },
   {
     path: '**',
