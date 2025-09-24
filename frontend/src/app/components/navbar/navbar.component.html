@@ -5,7 +5,7 @@
       <span>Banca<span>ITS</span></span>
     </a>
   </div>
-  <div class="navbar-center">
+  <div class="navbar-center" *ngIf="(currentUser$ | async) as currentUser">
     <ul class="nav-links">
       <li><a routerLink="/movimenti">Movimenti</a></li>
       <li><a routerLink="/bonifico">Bonifico</a></li>
