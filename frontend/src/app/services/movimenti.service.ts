@@ -39,7 +39,6 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
 
   exportMovimenti(): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/export`, {
-      headers: this.getAuthHeaders(),
       responseType: 'blob'
     });
   }
