@@ -73,6 +73,11 @@ export class ProfiloComponent implements OnInit {
       return;
     }
 
+    if(this.passwordForm?.get('newPassword')===this.passwordForm?.get('oldPassword')){
+      this.error='le due password sono uguali';
+      return;
+    }
+
     this.loading = true;
     this.error = '';
     this.message = '';
