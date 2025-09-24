@@ -60,7 +60,7 @@
             <td [ngClass]="{'positivo': m.importo > 0, 'negativo': m.importo < 0}">
               {{ m.importo | currency:'EUR' }}
             </td>
-            <td>{{ m.NomeCategoria }}</td>
+            <td>{{ m.CategoriaMovimentoid?.Nome }}</td>
           </tr>
         </tbody>
       </table>
