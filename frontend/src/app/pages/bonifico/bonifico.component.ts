@@ -39,8 +39,7 @@
       this.loadUtente();
       this.loadCategoriaBonifico();
       this.loadUltimiBonifici();
-      this.loadSaldo(this.utente!.Iban);
-      console.log(this.utente?.Iban);
+      this.loadSaldo();
     }
 
     private initForm(): void {
@@ -55,12 +54,12 @@
       this.authService.currentUser$.subscribe(user => {
         if (user) {
           this.utente = user;
-          this.loadSaldo(user.Iban);
+          this.loadSaldo();
         }
       });
     }
-    private loadSaldo(iban: string): void {
-      this.movimentiSrv.getSaldo(iban).subscribe({
+    private loadSaldo(): void {
+      this.movimentiSrv.getSaldo().subscribe({
       next: res => {
         this.saldo = res.saldo;
         console.log('Saldo caricato:', res);
@@ -113,7 +112,7 @@
           this.bonificoForm.reset();
           this.showConfirm = false;
           this.loadUltimiBonifici();
-          this.loadSaldo(this.utente!.id); 
+          this.loadSaldo(); 
         },
         error: err => {
           this.error = err.error?.message || 'Errore durante il bonifico.';

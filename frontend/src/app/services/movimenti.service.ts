@@ -42,9 +42,9 @@ private apiUrl = 'http://localhost:3000/api/movimenti';
       responseType: 'blob'
     });
   }
-  getSaldo(iban: string): Observable<{ saldo: number; nomeCompleto: string }> {
+  getSaldo(): Observable<{ saldo: number; nomeCompleto: string }> {
     return this.http.get<{ saldo: number; nomeCompleto: string }>(
-      `${this.apiUrl}/saldo/${iban}`,
+      `${this.apiUrl}/saldo`,
     );
   }
 }
