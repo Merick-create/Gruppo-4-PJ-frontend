@@ -51,7 +51,7 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'conferma',
+    path: 'conferma/:email',
     component: ConfermaEmailComponent,
   },
   {

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfermaEmailService } from '../../services/conferma-email.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-conferma-email',
@@ -14,6 +15,13 @@ export class ConfermaEmailComponent {
   successMessage: string = '';
   errorMessage: string = '';
   loading: boolean = false;
+  route = inject(ActivatedRoute);
+  email!: string;
+
+  ngOnInit(): void {
+    this.email = this.route.snapshot.paramMap.get('email') || '';
+    console.log(this.email);
+  }
 
   constructor(private fb: FormBuilder, private userService: ConfermaEmailService) {
     this.confirmForm = this.fb.group({
