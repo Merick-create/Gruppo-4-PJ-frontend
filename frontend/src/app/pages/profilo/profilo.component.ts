@@ -47,6 +47,19 @@ export class ProfiloComponent implements OnInit {
   }
 
   loadProfile(userId: string) {
+    this.http.get(`/api/contocorrente/${userId}/email`).subscribe({
+      next: (res: any) => {
+        this.profilo.email = res.email;
+
+        this.passwordForm.patchValue({
+          Email: res.email
+        });
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Errore nel caricamento del profilo.';
+      }
+    });
+
     this.http.get(`/api/contocorrente/${userId}/fullprofile`).subscribe({
       next: (res: any) => {
         this.profilo = res;
