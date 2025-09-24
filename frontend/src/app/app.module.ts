@@ -17,6 +17,7 @@ import { ProfiloComponent } from './pages/profilo/profilo.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { authInterceptor } from './utils/auth.interceptor';
 import { logoutInterceptor } from './utils/logout.interceptor';
+import { ConfermaEmailComponent } from './pages/conferma-email/conferma-email.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { logoutInterceptor } from './utils/logout.interceptor';
     RicaricaComponent,
     RicercaMovimentiComponent,
     ProfiloComponent,
-    BonificoComponent
+    BonificoComponent,
+    ConfermaEmailComponent
   ],
   imports: [
     BrowserModule,
