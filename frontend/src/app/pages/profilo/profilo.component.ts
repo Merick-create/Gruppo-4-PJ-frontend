@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../enviroments/environment.prod';
 @Component({
   selector: 'app-profilo',
   standalone: false,
@@ -15,6 +16,7 @@ export class ProfiloComponent implements OnInit {
   message: string = '';
   error: string = '';
   loading: boolean = false;
+  private apiUrl = environment.apiUrl; // URL del backend
 
   constructor(
     private fb: FormBuilder,
@@ -47,7 +49,7 @@ export class ProfiloComponent implements OnInit {
   }
 
   loadProfile(userId: string) {
-    this.http.get(`/api/contocorrente/${userId}/email`).subscribe({
+    this.http.get(this.apiUrl+`/api/contocorrente/${userId}/email`).subscribe({
       next: (res: any) => {
         this.profilo.email = res.email;
 
@@ -60,7 +62,7 @@ export class ProfiloComponent implements OnInit {
       }
     });
 
-    this.http.get(`/api/contocorrente/${userId}/fullprofile`).subscribe({
+    this.http.get(this.apiUrl+`/api/contocorrente/${userId}/fullprofile`).subscribe({
       next: (res: any) => {
         this.profilo = res;
 
@@ -99,7 +101,7 @@ export class ProfiloComponent implements OnInit {
       newPassword: this.passwordForm.value.newPassword
     };
 
-    this.http.post(`/api/updatePassword`, payload).subscribe({
+    this.http.post(this.apiUrl+`/api/updatePassword`, payload).subscribe({
       next: () => {
         this.message = 'Password aggiornata con successo!';
         this.loading = false;

@@ -3,11 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Movimento } from '../entities/Movimento.entity';
 import { AuthService } from './auth.service';
+import { environment } from '../../enviroments/environment.prod';
 
 
 @Injectable({ providedIn: 'root' })
 export class MovimentiService {
-private apiUrl = 'http://localhost:3000/api/movimenti';
+private apiUrl = environment.apiUrl+'/api/movimenti';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

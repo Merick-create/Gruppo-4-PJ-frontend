@@ -8,6 +8,7 @@
   import { HttpClient } from '@angular/common/http';
   import { Movimento } from '../../entities/Movimento.entity';
   import { MovimentiService } from '../../services/movimenti.service';
+import { environment } from '../../../enviroments/environment.prod';
 
 
   @Component({
@@ -33,6 +34,7 @@
     private authService = inject(AuthService);
     private http = inject(HttpClient);
     private movimentiSrv = inject(MovimentiService);
+    private apiUrl = environment.apiUrl; // URL del backend
 
     ngOnInit(): void {
       this.initForm();
@@ -69,7 +71,7 @@
   }
 
     private loadCategoriaBonifico(): void {
-      this.http.get<{ id: string }>(`/api/categorie/nome/Bonifico`).subscribe({
+      this.http.get<{ id: string }>(this.apiUrl+`/api/categorie/nome/Bonifico`).subscribe({
         next: res => this.categoriaBonificoId = res.id,
         error: err => {
           console.error('Categoria "Bonifico" non trovata', err);

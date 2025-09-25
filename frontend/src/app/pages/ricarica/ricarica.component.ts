@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { MovimentiDTO } from '../../entities/MovimentiDTO';
 import { Categoria } from '../../entities/categorie';
+import { environment } from '../../../enviroments/environment.prod';
 
 @Component({
   selector: 'app-ricarica',
@@ -27,6 +28,7 @@ export class RicaricaComponent implements OnInit {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl; // URL del backend
 
   ngOnInit(): void {
     this.ricaricaForm = this.fb.group({
@@ -38,7 +40,7 @@ export class RicaricaComponent implements OnInit {
       if (user) this.contoCorrenteId = user.id;
     });
 
-    this.http.get<{ id: string }>(`/api/categorie/nome/${this.nomeCategoria}`)
+    this.http.get<{ id: string }>(this.apiUrl+`/api/categorie/nome/${this.nomeCategoria}`)
     .subscribe({
       next: (res) => {
         if (res && res.id) {
@@ -81,7 +83,7 @@ export class RicaricaComponent implements OnInit {
       descrizione: `Ricarica ${this.ricaricaForm.value.operatore} numero ${this.ricaricaForm.value.numeroTelefono}`,
     };
 
-    this.http.post<{ message: string }>('/api/movimenti/ricarica', ricaricaDto)
+    this.http.post<{ message: string }>(this.apiUrl+'/api/movimenti/ricarica', ricaricaDto)
       .subscribe({
         next: (res) => {
           this.message = res.message || 'Ricarica eseguita con successo!';
@@ -102,7 +104,7 @@ export class RicaricaComponent implements OnInit {
   }
 
   private caricaUltimeRicariche(): void {
-    this.http.get<MovimentiDTO[]>(`/api/movimenti/categoria?n=5&categoria=${this.nomeCategoria}`)
+    this.http.get<MovimentiDTO[]>(this.apiUrl+`/api/movimenti/categoria?n=5&categoria=${this.nomeCategoria}`)
       .subscribe({
         next: (res) => {
           this.ultimeRicariche = res

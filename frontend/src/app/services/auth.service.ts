@@ -55,15 +55,15 @@ export class AuthService {
       );
   }
   getMovimenti(): Observable<Movimento[]> {
-    return this.http.get<Movimento[]>('/api/movimenti/ricerca');
+    return this.http.get<Movimento[]>(this.apiUrl+'/api/movimenti/ricerca');
   }
 
   getMovimentoById(id: string): Observable<Movimento> {
-    return this.http.get<Movimento>(`/api/movimenti/${id}`);
+    return this.http.get<Movimento>(this.apiUrl+`/api/movimenti/${id}`);
 }
 
   register(user: {cognomeTitolare: string;nomeTitolare: string; iban:string; username: string; password:string;}) {
-  return this.http.post<User>('/api/register', user)
+  return this.http.post<User>(this.apiUrl+'/api/register', user)
 }
  getToken(): string | null {
     return this.jwtSrv.getToken();
@@ -81,7 +81,7 @@ export class AuthService {
 }
 
  eseguiBonifico(dto: MovimentiDTO, mittenteId: string): Observable<any> {
-    return this.http.post(`/api/movimenti/bonifico`, dto);
+    return this.http.post(this.apiUrl+`/api/movimenti/bonifico`, dto);
   }
 
     ricarica(ricaricaDto: MovimentiDTO) {
@@ -89,7 +89,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: token ? `Bearer ${token}` : ''
     });
-    return this.http.post<{message: string}>('/api/movimenti/ricarica', ricaricaDto, { headers });
+    return this.http.post<{message: string}>(this.apiUrl+'/api/movimenti/ricarica', ricaricaDto, { headers });
   }
 
   getCategorie(): Observable<Categoria[]> {
@@ -97,7 +97,7 @@ export class AuthService {
     const headers = new HttpHeaders({
     Authorization: token ? `Bearer ${token}` : ''
     });
-    return this.http.get<Categoria[]>('/api/categorie', { headers });
+    return this.http.get<Categoria[]>(this.apiUrl+'/api/categorie', { headers });
 }
 
 }
