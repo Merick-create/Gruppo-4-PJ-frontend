@@ -43,4 +43,4 @@ export class HomeComponent implements OnInit {
   vaiADettaglio(id: string) {
     this.router.navigate(['/movimenti', id]);
   }
-}
+}//sus
