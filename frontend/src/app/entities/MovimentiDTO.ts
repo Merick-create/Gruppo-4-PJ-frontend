@@ -1,5 +1,7 @@
+import { User } from "./user.entity";
+
 export interface MovimentiDTO {
-  ContoCorrenteId: string; 
+  ContoCorrenteId: User|string; 
   numeroTelefono?: string; 
   operatore?: string;    
   importo: number;              

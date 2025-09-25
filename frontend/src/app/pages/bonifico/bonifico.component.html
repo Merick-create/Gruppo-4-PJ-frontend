@@ -55,7 +55,7 @@
       <tbody>
       <tr *ngFor="let m of ultimiBonifici">
         <td>{{ m.dataCreazione | date:'dd/MM/yyyy' }}</td>
-        <td>{{ m.ContoCorrenteId }}</td>
+        <td>{{ m.ContoCorrenteId.iban }}</td>
         <td>{{ m.importo | currency:'EUR' }}</td>
         <td>{{ m.descrizione }}</td>
       </tr>
