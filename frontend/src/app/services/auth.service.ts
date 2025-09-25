@@ -8,6 +8,7 @@ import { Movimento } from '../entities/Movimento.entity';
 import { HttpHeaders } from '@angular/common/http';
 import { MovimentiDTO } from '../entities/MovimentiDTO';
 import { Categoria } from '../entities/categorie';
+import { environment } from '../../enviroments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
   protected http = inject(HttpClient);
   protected jwtSrv = inject(JwtService);
   protected router = inject(Router);
+  private apiUrl = environment.apiUrl; // URL del backend
 
   protected _currentUser$ = new ReplaySubject<User | null>(1);
   currentUser$ = this._currentUser$.asObservable();
@@ -45,7 +47,7 @@ export class AuthService {
 
 
   login(username: string, password: string) {
-    return this.http.post<any>('/api/login', {username, password})
+    return this.http.post<any>(this.apiUrl+'/api/login', {username, password})
       .pipe(
         tap(res => this.jwtSrv.setToken(res.token)),
         tap(res => this._currentUser$.next(res.user)),
