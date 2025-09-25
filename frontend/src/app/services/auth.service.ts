@@ -44,33 +44,14 @@ export class AuthService {
                       );
 
 
- login(username: string, password: string): Observable<User | null> {
-  return this.http.post<{ user: User, token: string }>('/api/login', { username, password })
-    .pipe(
-      tap(res => {
-        if (res?.token) {
-          this.jwtSrv.setToken(res.token);           // salva il token
-        }
-        if (res?.user) {
-          this._currentUser$.next(res.user);        // aggiorna lo stato dell’utente
-        }
-      }),
-      map(res => res?.user || null),               // restituisci l’utente o null
-      catchError(err => {
-        // Stampa l’errore completo su console per debugging
-        console.error('Login error', err);
-
-        // Estrai un messaggio leggibile, fallback a stringa generica
-        const errorMsg = err?.error?.message || err?.message || 'Errore imprevisto durante il login';
-        
-        // Puoi anche mostrare un alert direttamente qui, oppure restituire un Observable
-        alert(errorMsg);
-
-        // Restituisci null per continuare il flusso senza crash
-        return of(null);
-      })
-    );
-}
+  login(username: string, password: string) {
+    return this.http.post<any>('/api/login', {username, password})
+      .pipe(
+        tap(res => this.jwtSrv.setToken(res.token)),
+        tap(res => this._currentUser$.next(res.user)),
+        map(res => res.user)
+      );
+  }
   getMovimenti(): Observable<Movimento[]> {
     return this.http.get<Movimento[]>('/api/movimenti/ricerca');
   }
